@@ -28,8 +28,9 @@
 
       <!-- COMPONENTE p-dataTable / PRIMENG
            [paginator]=true -> Disponibilizando paginação
-           [rows]=2 -> qtde de linhas por página -->
-      <p-dataTable [value]="lancamentos" [paginator]="true" [rows]="2" >
+           [rows]=2 -> qtde de linhas por página
+           [responsive]=true -> Deixando a tabela responsiva -->
+      <p-dataTable [value]="lancamentos" [paginator]="true" [rows]="2" [responsive]="true">
         <p-column field="pessoa" header="Pessoa"></p-column>
         <p-column field="descricao" header="Descrição"></p-column>
 
