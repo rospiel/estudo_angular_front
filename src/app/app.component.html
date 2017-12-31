@@ -28,10 +28,36 @@
       <p-dataTable [value]="lancamentos" > <!-- COMPONENTE p-dataTable / PRIMENG -->
         <p-column field="pessoa" header="Pessoa"></p-column>
         <p-column field="descricao" header="Descrição"></p-column>
+
+        <!-- styleClass / Necessário caso almejemos mudar o style das colunas  -->
         <p-column styleClass="col-data" field="dataVencimento" header="Vencimento"></p-column>
         <p-column styleClass="col-data" field="dataPagamento" header="Pagamento"></p-column>
-        <p-column styleClass="col-valor" field="valor" header="Valor"></p-column>
+
+
+        <p-column styleClass="col-valor" field="valor" header="Valor">
+          <!-- COMPONENTE ng-template / ANGULAR / Agregando no trecho dinâmica na tabela
+               rowData -> guarda o contéudo da linha
+               let-lanc -> criando variável que recebe o conteúdo da linha
+               pTemplate -> qual parte da tabela será alterado -->
+          <ng-template let-lanc="rowData" pTemplate="body">
+            <!-- Tratativa da cor de texto conforme despesa -->
+            <span [style.color]=" lanc.tipo === 'DESPESA' ? 'red' : 'blue' " >{{ lanc.valor }}</span>
+          </ng-template>
+        </p-column>
+
+
+        <p-column styleClass="col-acoes">
+          <ng-template pTemplate="body">
+            <a icon="fa-pencil" pButton ></a> <!-- DIRETIVA icon=fa-pencil AWESOME -->
+            <button icon="fa-trash" pButton></button>
+          </ng-template>
+        </p-column>
+
       </p-dataTable>
+    </div>
+
+    <div class="ui-g-12">
+      <a label="Novo Lançamento" pButton></a>
     </div>
 
   </div>
