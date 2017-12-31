@@ -22,4 +22,17 @@
       <button type="submit" label="Pesquisar" pButton></button> <!-- DIRETIVA pButton / PRIMENG -->
     </div>
   </div>
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lancamentos" > <!-- COMPONENTE p-dataTable / PRIMENG -->
+        <p-column field="pessoa" header="Pessoa"></p-column>
+        <p-column field="descricao" header="Descrição"></p-column>
+        <p-column styleClass="col-data" field="dataVencimento" header="Vencimento"></p-column>
+        <p-column styleClass="col-data" field="dataPagamento" header="Pagamento"></p-column>
+        <p-column styleClass="col-valor" field="valor" header="Valor"></p-column>
+      </p-dataTable>
+    </div>
+
+  </div>
 </div>
