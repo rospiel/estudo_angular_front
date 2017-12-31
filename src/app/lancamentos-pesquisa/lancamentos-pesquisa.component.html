@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="ui-g">
+
+    <div class="ui-g-12">
+      <h1>Lançamentos</h1>
+    </div>
+
+    <div class="ui-g-12 ui-fluid">
+      <label>Descrição</label>
+      <input type="text" pInputText>
+    </div>
+
+    <div class="ui-g-12">
+      <label style="display: block">Vencimento</label>
+      <input style="width: 95px" type="text" pInputText> <!-- DIRETIVA pInputText / PRIMENG -->
+
+      <label>Até</label>
+      <input style="width: 95px" type="text" pInputText>
+    </div>
+
+    <div class="ui-g-12">
+      <button type="submit" label="Pesquisar" pButton></button> <!-- DIRETIVA pButton / PRIMENG -->
+    </div>
+  </div>
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+
+      <!-- COMPONENTE p-dataTable / PRIMENG
+            [paginator]=true -> Disponibilizando paginação
+            [rows]=2 -> qtde de linhas por página
+            [responsive]=true -> Deixando a tabela responsiva -->
+      <p-dataTable [value]="lancamentos" [paginator]="true" [rows]="2" [responsive]="true">
+        <p-column field="pessoa" header="Pessoa"></p-column>
+        <p-column field="descricao" header="Descrição"></p-column>
+
+        <!-- styleClass / Necessário caso almejemos mudar o style das colunas  -->
+        <p-column styleClass="col-data" field="dataVencimento" header="Vencimento"></p-column>
+        <p-column styleClass="col-data" field="dataPagamento" header="Pagamento"></p-column>
+
+
+        <p-column styleClass="col-valor" field="valor" header="Valor">
+          <!-- COMPONENTE ng-template / ANGULAR / Agregando no trecho dinâmica na tabela
+                rowData -> guarda o contéudo da linha
+                let-lanc -> criando variável que recebe o conteúdo da linha
+                pTemplate -> qual parte da tabela será alterado -->
+          <ng-template let-lanc="rowData" pTemplate="body">
+            <!-- Tratativa da cor de texto conforme despesa -->
+            <span [style.color]=" lanc.tipo === 'DESPESA' ? 'red' : 'blue' " >{{ lanc.valor }}</span>
+          </ng-template>
+        </p-column>
+
+
+        <p-column styleClass="col-acoes">
+          <ng-template pTemplate="body">
+            <a icon="fa-pencil" pButton pTooltip="Editar Lançamento" tooltipPosition="top"></a> <!-- DIRETIVA icon=fa-pencil AWESOME -->
+            <button icon="fa-trash" pButton pTooltip="Excluir Lançamento" tooltipPosition="top"></button>
+          </ng-template>
+        </p-column>
+
+      </p-dataTable>
+    </div>
+
+    <div class="ui-g-12">
+      <a label="Novo Lançamento" pButton></a>
+    </div>
+
+  </div>
+</div>
