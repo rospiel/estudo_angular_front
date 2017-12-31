@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="ui-g">
+
+    <div class="ui-g-12">
+      <h1>Pessoas</h1>
+    </div>
+
+    <div class="ui-g-12 ui-fluid">
+      <label>Nome</label>
+      <input type="text" pInputText>
+    </div>
+
+    <div class="ui-g-12">
+      <button type="submit" label="Pesquisar" pButton></button>
+    </div>
+  </div>
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+
+      <p-dataTable [value]="pessoas" [paginator]="true" [rows]="2" [responsive]="true" >
+        <p-column field="nome" header="Nome"></p-column>
+        <p-column field="cidade" header="Cidade"></p-column>
+        <p-column field="estado" header="Estado" styleClass="col-estado"></p-column>
+        <p-column field="status" header="Status" styleClass="col-status" >
+          <ng-template let-pessoa="rowData" pTemplate="body" >
+            <span style="color: green;" *ngIf="pessoa.status" pTooltip="Clique para desativar" tooltipPosition="top">
+              {{ 'Ativo' }}
+            </span>
+            <span style="color: red;" *ngIf="pessoa.status == false" pTooltip="Clique para ativar" tooltipPosition="top">
+              {{ 'Inativo' }}
+            </span>
+          </ng-template>
+        </p-column>
+        <p-column styleClass="col-acoes">
+          <ng-template pTemplate="body">
+            <a icon="fa-pencil" pButton pTooltip="Editar Pessoa" tooltipPosition="top" ></a>
+            <button icon="fa-trash" pButton pTooltip="Excluir Pessoa" tooltipPosition="top" ></button>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+
+    </div>
+
+    <div class="ui-g-12">
+      <a label="Nova Pessoa" pButton></a>
+    </div>
+
+  </div>
+
+</div>
+
+
+
