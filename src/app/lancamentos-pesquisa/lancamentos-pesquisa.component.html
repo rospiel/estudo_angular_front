@@ -35,8 +35,16 @@
         <p-column field="descricao" header="Descrição"></p-column>
 
         <!-- styleClass / Necessário caso almejemos mudar o style das colunas  -->
-        <p-column styleClass="col-data" field="dataVencimento" header="Vencimento"></p-column>
-        <p-column styleClass="col-data" field="dataPagamento" header="Pagamento"></p-column>
+        <p-column styleClass="col-data" field="dataVencimento" header="Vencimento">
+          <ng-template let-lanc="rowData" pTemplate="body">
+            {{ lanc.dataVencimento | date: 'dd/MM/y' }}
+          </ng-template>
+        </p-column>
+        <p-column styleClass="col-data" field="dataPagamento" header="Pagamento">
+          <ng-template let-lanc="rowData" pTemplate="body">
+            {{ lanc.dataPagamento | date: 'dd/MM/y' }}
+          </ng-template>
+        </p-column>
 
 
         <p-column styleClass="col-valor" field="valor" header="Valor">
@@ -46,7 +54,7 @@
                 pTemplate -> qual parte da tabela será alterado -->
           <ng-template let-lanc="rowData" pTemplate="body">
             <!-- Tratativa da cor de texto conforme despesa -->
-            <span [style.color]=" lanc.tipo === 'DESPESA' ? 'red' : 'blue' " >{{ lanc.valor }}</span>
+            <span [style.color]=" lanc.tipo === 'DESPESA' ? 'red' : 'blue' " >{{ lanc.valor | number:'1.2-2' }}</span>
           </ng-template>
         </p-column>
 
