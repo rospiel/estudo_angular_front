@@ -36,12 +36,16 @@
 
       <div class="ui-g-12 ui-md-6 ui-fluid">
         <label>Categoria</label>
-        <input type="text" pInputText>
+        <!--
+          autoWidth -> Tamanho do componente não será conforme qtde de caracteres das palavras
+          filter -> Disponibiliza combo de busca
+        -->
+        <p-dropdown [options]="categorias" [autoWidth]="false" placeholder="Selecione" ></p-dropdown>
       </div>
 
       <div class="ui-g-12 ui-md-6 ui-fluid">
         <label>Pessoa</label>
-        <input type="text" pInputText>
+        <p-dropdown [options]="pessoas" [autoWidth]="false" placeholder="Selecione" [filter]="true"></p-dropdown>
       </div>
 
       <div class="ui-g-12  ui-fluid">
