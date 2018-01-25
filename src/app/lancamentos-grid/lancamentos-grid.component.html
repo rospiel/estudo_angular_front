@@ -1,0 +1,41 @@
+<!-- COMPONENTE p-dataTable / PRIMENG
+[paginator]=true -> Disponibilizando paginação
+[rows]=2 -> qtde de linhas por página
+[responsive]=true -> Deixando a tabela responsiva -->
+<p-dataTable [value]="lancamentos" [paginator]="true" [rows]="2" [responsive]="true">
+  <p-column field="pessoa" header="Pessoa"></p-column>
+  <p-column field="descricao" header="Descrição"></p-column>
+
+  <!-- styleClass / Necessário caso almejemos mudar o style das colunas  -->
+  <p-column styleClass="col-data" field="dataVencimento" header="Vencimento">
+    <ng-template let-lanc="rowData" pTemplate="body">
+      {{ lanc.dataVencimento | date: 'dd/MM/y' }}
+    </ng-template>
+  </p-column>
+  <p-column styleClass="col-data" field="dataPagamento" header="Pagamento">
+    <ng-template let-lanc="rowData" pTemplate="body">
+      {{ lanc.dataPagamento | date: 'dd/MM/y' }}
+    </ng-template>
+  </p-column>
+
+
+  <p-column styleClass="col-valor" field="valor" header="Valor">
+    <!-- COMPONENTE ng-template / ANGULAR / Agregando no trecho dinâmica na tabela
+          rowData -> guarda o contéudo da linha
+          let-lanc -> criando variável que recebe o conteúdo da linha
+          pTemplate -> qual parte da tabela será alterado -->
+    <ng-template let-lanc="rowData" pTemplate="body">
+      <!-- Tratativa da cor de texto conforme despesa -->
+      <span [style.color]=" lanc.tipo === 'DESPESA' ? 'red' : 'blue' " >{{ lanc.valor | number:'1.2-2' }}</span>
+    </ng-template>
+  </p-column>
+
+
+  <p-column styleClass="col-acoes">
+    <ng-template pTemplate="body">
+      <a icon="fa-pencil" pButton pTooltip="Editar Lançamento" tooltipPosition="top"></a> <!-- DIRETIVA icon=fa-pencil AWESOME -->
+      <button icon="fa-trash" pButton pTooltip="Excluir Lançamento" tooltipPosition="top"></button>
+    </ng-template>
+  </p-column>
+
+</p-dataTable>
