@@ -2,7 +2,7 @@
 [paginator]=true -> Disponibilizando paginação
 [rows]=2 -> qtde de linhas por página
 [responsive]=true -> Deixando a tabela responsiva -->
-<p-dataTable [value]="lancamentos" [paginator]="true" [rows]="2" [responsive]="true">
+<p-dataTable [value]="lancamentos" [paginator]="true" [rows]="2" [responsive]="true" emptyMessage="Nenhum lançamento encontrado.">
   <p-column field="pessoa" header="Pessoa"></p-column>
   <p-column field="descricao" header="Descrição"></p-column>
 
