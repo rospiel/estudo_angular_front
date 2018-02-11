@@ -1,22 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers  } from '@angular/http';
+import { Http, Headers, URLSearchParams } from '@angular/http';
+import { BarraAguardeService } from '../shared/barra-aguarde/BarraAguardeService.service';
 
+export interface LancamentoFiltro {
+  descricao: string;
+}
 
 @Injectable()
 export class LancamentoService {
 
   lancamentosUrl = 'http://localhost:8090/lancamentos';
 
-  constructor(private http: Http) { }
+  constructor(private http: Http,
+              private barraAguardeService: BarraAguardeService) { }
 
-  pesquisar(): Promise<any> {
+  pesquisar(filtro: LancamentoFiltro): Promise<any> {
+    this.barraAguardeService.mostrarBarra();
 
+    const params = new URLSearchParams();
     const headers = new Headers();
     headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
 
-    /* Como a chave tem o mesmo nome da variável que guarda o valor basta passar o nome da variável --> { headers: headers }  */
-    return this.http.get(`${this.lancamentosUrl}?resumo`, { headers }).toPromise().then(response =>
-      response.json().content
+    if (filtro.descricao) {
+      params.set('descricao', filtro.descricao);
+    }
+
+    const promessa = this.http.get(`${this.lancamentosUrl}?resumo`, { headers, search: params }).toPromise().then(
+      response => response.json().content
     );
+
+    promessa.then( () => this.barraAguardeService.esconderBarra() );
+
+    return promessa;
+
   }
 }

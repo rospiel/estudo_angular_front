@@ -1,3 +1,5 @@
+import { BarraAguardeService } from './shared/barra-aguarde/BarraAguardeService.service';
+import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -24,9 +26,10 @@ import { LancamentoService } from './lancamentos/lancamento.service';
     FormsModule,
     LancamentosModule,
     PessoasModule,
-    CoreModule
+    CoreModule,
+    SharedModule
   ],
-  providers: [LancamentoService],
+  providers: [LancamentoService, BarraAguardeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
