@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
 import { BarraAguardeService } from '../shared/barra-aguarde/BarraAguardeService.service';
+/* Conversor de Data */
 import * as moment from 'moment';
 
-export interface LancamentoFiltro {
+export class LancamentoFiltro {
   descricao: string;
   dataVencimentoInicio: Date;
   dataVencimentoFim: Date;
+  pagina = 0;
+  itensPorPagina = 3;
 }
 
 @Injectable()
@@ -27,12 +30,23 @@ export class LancamentoService {
     params = this.validarFiltro(filtro.descricao, 'descricao', 'string', params);
     params = this.validarFiltro(filtro.dataVencimentoInicio, 'dataVencimentoDe', 'date', params);
     params = this.validarFiltro(filtro.dataVencimentoFim, 'dataVencimentoAte', 'date', params);
+    params = this.validarFiltro(filtro.pagina.toString(), 'page', 'string', params);
+    params = this.validarFiltro(filtro.itensPorPagina.toString(), 'size', 'string', params);
 
     const promessa = this.http.get(`${this.lancamentosUrl}?resumo`, { headers, search: params }).toPromise().then(
-      response => response.json().content
-    );
+      response => { const responseJson = response.json();
+                    const lancamentos = responseJson.content;
 
-    promessa.then( () => this.barraAguardeService.esconderBarra() );
+                    const resultado = {
+                       lancamentos: lancamentos,
+                       total: responseJson.totalElements
+                    };
+
+                    this.barraAguardeService.esconderBarra();
+
+                    return resultado;
+                  }
+    );
 
     return promessa;
 
