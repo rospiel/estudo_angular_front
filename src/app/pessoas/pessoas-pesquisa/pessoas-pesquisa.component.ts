@@ -1,3 +1,4 @@
+import { PessoaService, PessoaFiltro } from './../pessoa.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,15 +6,23 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './pessoas-pesquisa.component.html',
   styleUrls: ['./pessoas-pesquisa.component.css']
 })
-export class PessoasPesquisaComponent {
+export class PessoasPesquisaComponent implements OnInit {
 
-  pessoas = [
-    { nome: 'Melissa Hadassa Castro', cidade: 'Maceió', estado: 'AL', status: true },
-    { nome: 'Giovanna Yasmin da Silva', cidade: 'Joinville', estado: 'SC', status: true },
-    { nome: 'Miguel Hugo Barbosa', cidade: 'Fortaleza', estado: 'CE', status: false },
-    { nome: 'Paulo Pedro Ryan Moura', cidade: 'Paulo Afonso', estado: 'BA', status: false },
-    { nome: 'Vitória Betina Oliveira', cidade: 'Formosa', estado: 'GO', status: false },
-    { nome: 'Raquel Mariane Monteiro', cidade: 'Campo Grande', estado: 'MS', status: true }
-  ];
+  pessoas = [];
+  filtro = new PessoaFiltro();
+  totalRegistros = 0;
+
+  constructor(private pessoaService: PessoaService) { }
+
+  ngOnInit() {}
+
+  pesquisar(pagina = 0) {
+    this.filtro.pagina = pagina;
+
+    this.pessoaService.pesquisar(this.filtro).then(pessoasEncontradas => {
+      this.pessoas = pessoasEncontradas.pessoas;
+      this.totalRegistros = pessoasEncontradas.total;
+    });
+  }
 
 }

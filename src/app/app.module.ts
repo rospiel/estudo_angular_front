@@ -1,3 +1,4 @@
+import { PessoaService } from './pessoas/pessoa.service';
 import { BarraAguardeService } from './shared/barra-aguarde/BarraAguardeService.service';
 import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -29,7 +30,7 @@ import { LancamentoService } from './lancamentos/lancamento.service';
     CoreModule,
     SharedModule
   ],
-  providers: [LancamentoService, BarraAguardeService],
+  providers: [LancamentoService, BarraAguardeService, PessoaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

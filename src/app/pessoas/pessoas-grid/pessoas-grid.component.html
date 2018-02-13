@@ -1,4 +1,6 @@
-<p-dataTable [value]="pessoas" [paginator]="true" [rows]="2" [responsive]="true" >
+<p-dataTable [value]="pessoas" [responsive]="true" emptyMessage="Nenhuma pessoa encontrada."
+             [paginator]="true" [rows]="filtro.itensPorPagina" [rows]="filtro.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros"
+             (onLazyLoad)="aoMudarPagina($event)">
   <p-column field="nome" header="Nome"></p-column>
   <p-column field="cidade" header="Cidade"></p-column>
   <p-column field="estado" header="Estado" styleClass="col-estado"></p-column>

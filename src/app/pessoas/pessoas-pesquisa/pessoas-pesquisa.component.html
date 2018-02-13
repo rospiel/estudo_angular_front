@@ -1,30 +1,31 @@
 <div class="container">
   <div class="ui-g">
 
-    <div class="ui-g-12">
-      <h1>Pessoas</h1>
-    </div>
+    <form autocomplete="off" (ngSubmit)="pesquisar()" >
+      <div>
+        <div class="ui-g-12">
+          <h1>Pessoas</h1>
+        </div>
 
-    <div class="ui-g-12 ui-fluid">
-      <label>Nome</label>
-      <input type="text" pInputText>
-    </div>
+        <div class="ui-g-12 ui-fluid">
+          <label>Nome</label>
+          <input type="text" pInputText name="nome" [(ngModel)]="filtro.nome">
+        </div>
 
-    <div class="ui-g-12">
-      <button type="submit" label="Pesquisar" pButton></button>
-    </div>
-  </div>
+        <div class="ui-g-12">
+          <button type="submit" label="Pesquisar" pButton></button>
+        </div>
+      </div>
 
-  <div class="ui-g">
-    <div class="ui-g-12">
-      <app-pessoas-grid [pessoas]="pessoas" ></app-pessoas-grid>
-    </div>
+      <div class="ui-g-12">
+        <app-pessoas-grid [pessoas]="pessoas" [filtro]="filtro" [totalRegistros]="totalRegistros" ></app-pessoas-grid>
+      </div>
 
-    <div class="ui-g-12">
-      <a label="Nova Pessoa" pButton></a>
-    </div>
+      <div class="ui-g-12">
+        <a label="Nova Pessoa" pButton></a>
+      </div>
+    </form>
 
-  </div>
 
 </div>
 
