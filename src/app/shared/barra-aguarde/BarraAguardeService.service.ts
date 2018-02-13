@@ -6,15 +6,22 @@ export class BarraAguardeService {
   constructor() { }
 
   mostrarBarra() {
-    const divAguarde = document.getElementById('fundo') as HTMLDivElement;
-    divAguarde.style.display = 'inline';
-    return null;
+    const divAguarde = this.getDiv();
+
+    if (divAguarde) {
+      divAguarde.style.display = 'inline';
+    }
   }
 
   esconderBarra() {
-    const divAguarde = document.getElementById('fundo') as HTMLDivElement;
-    divAguarde.style.display = 'none';
-    return null;
+    const divAguarde = this.getDiv();
+
+    if (divAguarde) {
+      divAguarde.style.display = 'none';
+    }
   }
 
+  getDiv(): HTMLDivElement {
+    return document.getElementById('fundo') as HTMLDivElement;
+  }
 }
