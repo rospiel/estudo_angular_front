@@ -1,7 +1,9 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { LancamentoFiltro, LancamentoService } from '../lancamento.service';
 import { LazyLoadEvent } from 'primeng/components/common/api';
 import { ToastyService } from 'ng2-toasty';
+import { ConfirmationService } from 'primeng/components/common/api';
 
 @Component({
   selector: 'app-lancamentos-grid',
@@ -11,7 +13,9 @@ import { ToastyService } from 'ng2-toasty';
 export class LancamentosGridComponent {
 
   constructor(private lancamentoService: LancamentoService,
-              private toasty: ToastyService) { }
+              private toasty: ToastyService,
+              private confirmacao: ConfirmationService,
+              private formatadorDecimal: DecimalPipe) { }
 
   @Input() lancamentos = [];
   @Input() filtro: LancamentoFiltro;
@@ -32,7 +36,7 @@ export class LancamentosGridComponent {
   }
 
   excluir(lancamento: any) {
-    this.lancamentoService.excluir(lancamento.codigo).then(() => {
+   this.lancamentoService.excluir(lancamento.codigo).then(() => {
       if (this.grid.first === 0) {
         this.filtro.pagina = 0;
         this.lancamentoService.pesquisar(this.filtro).then(lancamentosEncontrados => {
@@ -46,6 +50,18 @@ export class LancamentosGridComponent {
 
       this.toasty.success('Lançamento excluído com sucesso!');
     });
+  }
+
+  confirmarExclusao(lancamento: any) {
+    const valorFormatado = this.formatadorDecimal.transform(lancamento.valor, '1.2-2');
+
+    this.confirmacao.confirm({ message: `Deseja excluir o lançamento da pessoa ${lancamento.pessoa} de valor ${valorFormatado}?`,
+                               accept: () => {
+                                 this.excluir(lancamento);
+                               },
+                               reject: () => {
+                                 this.totalizar();
+                               } });
   }
 
   totalizar() {
