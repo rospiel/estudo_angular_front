@@ -4,7 +4,7 @@
 [responsive]=true -> Deixando a tabela responsiva -->
 <p-dataTable [value]="lancamentos" [responsive]="true" emptyMessage="Nenhum lançamento encontrado."
              [paginator]="true" [rows]="filtro.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros"
-             (onLazyLoad)="aoMudarPagina($event)">
+             (onLazyLoad)="aoMudarPagina($event)" #tabela >
   <p-column field="pessoa" header="Pessoa"></p-column>
   <p-column field="descricao" header="Descrição"></p-column>
 
@@ -34,10 +34,25 @@
 
 
   <p-column styleClass="col-acoes">
-    <ng-template pTemplate="body">
+    <ng-template let-lanc="rowData" pTemplate="body">
       <a icon="fa-pencil" pButton pTooltip="Editar Lançamento" tooltipPosition="top"></a> <!-- DIRETIVA icon=fa-pencil AWESOME -->
-      <button icon="fa-trash" pButton pTooltip="Excluir Lançamento" tooltipPosition="top"></button>
+      <button icon="fa-trash" pButton pTooltip="Excluir Lançamento" tooltipPosition="top" (click)="excluir(lanc)"></button>
     </ng-template>
   </p-column>
+
+
+
+  <p-footerColumnGroup>
+    <p-row>
+        <p-column footer="Total:" colspan="4"></p-column>
+        <p-column>
+          <ng-template pTemplate="footer">
+              R$ {{ totalValor | number:'1.2-2' }}
+          </ng-template>
+        </p-column>
+
+        <p-column footer="" ></p-column>
+    </p-row>
+  </p-footerColumnGroup>
 
 </p-dataTable>

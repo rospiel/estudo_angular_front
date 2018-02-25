@@ -28,11 +28,9 @@ export class LancamentosPesquisaComponent implements OnInit {
       today: 'Hoje',
       clear: 'Limpar'
     };
-
-    // this.pesquisar();
   }
 
-  pesquisar(pagina  = 0) {
+  pesquisar(pagina = 0) {
     this.filtro.pagina = pagina;
 
     this.lancamentoService.pesquisar(this.filtro).then(lancamentosEncontrados => {
