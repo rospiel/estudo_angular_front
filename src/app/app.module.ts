@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
+import { ToastyModule } from 'ng2-toasty';
+
 import { AppComponent } from './app.component';
 import { LancamentosModule } from './lancamentos/lancamentos.module';
 import { PessoasModule } from './pessoas/pessoas.module';
@@ -25,6 +27,9 @@ import { LancamentoService } from './lancamentos/lancamento.service';
     BrowserAnimationsModule,
     HttpModule,
     FormsModule,
+
+    ToastyModule.forRoot(),
+
     LancamentosModule,
     PessoasModule,
     CoreModule,
