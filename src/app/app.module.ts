@@ -4,9 +4,12 @@ import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { DecimalPipe } from '@angular/common';
+
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
 
 import { ToastyModule } from 'ng2-toasty';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
@@ -18,7 +21,7 @@ import { PessoasModule } from './pessoas/pessoas.module';
 import { CoreModule } from './core/core.module';
 import { LancamentoService } from './lancamentos/lancamento.service';
 
-
+registerLocaleData(localePt, 'pt-BR');
 
 
 @NgModule({
@@ -44,7 +47,8 @@ import { LancamentoService } from './lancamentos/lancamento.service';
     BarraAguardeService,
     PessoaService,
     ConfirmationService,
-    DecimalPipe
+    DecimalPipe,
+    { provide: LOCALE_ID, useValue: 'pt-BR'}
   ],
   bootstrap: [AppComponent]
 })
