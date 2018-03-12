@@ -83,4 +83,14 @@ export class PessoaService {
     return params;
   }
 
+  excluir(codigo: number): Promise<void> {
+    this.barraAguardeService.mostrarBarra();
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+
+    return this.http.delete(`${this.pessoasUrl}/${codigo}`, { headers }).toPromise().then(() => {
+      this.barraAguardeService.esconderBarra();
+    });
+  }
+
 }

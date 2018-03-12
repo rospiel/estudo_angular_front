@@ -1,6 +1,11 @@
-import { PessoaService, PessoaFiltro } from './../pessoa.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+
+import { ConfirmationService } from 'primeng/components/common/api';
 import { LazyLoadEvent } from 'primeng/components/common/api';
+import { ToastyService } from 'ng2-toasty';
+
+import { PessoaService, PessoaFiltro } from './../pessoa.service';
+import { ErrorHandlerService } from '../../core/error-handler.service';
 
 @Component({
   selector: 'app-pessoas-grid',
@@ -9,11 +14,15 @@ import { LazyLoadEvent } from 'primeng/components/common/api';
 })
 export class PessoasGridComponent {
 
-  constructor(private pessoasService: PessoaService) { }
+  constructor(private pessoasService: PessoaService,
+              private confirmacao: ConfirmationService,
+              private toasty: ToastyService,
+              private errorHandle: ErrorHandlerService) { }
 
   @Input() pessoas = [];
   @Input() filtro: PessoaFiltro;
   @Input() totalRegistros;
+  @ViewChild('tabela') grid;
 
   aoMudarPagina(event: LazyLoadEvent) {
     const pagina = event.first / event.rows;
@@ -24,6 +33,31 @@ export class PessoasGridComponent {
       this.pessoas = pessoasEncontrados.pessoas;
       this.totalRegistros = pessoasEncontrados.total;
     });
+  }
+
+  excluir(pessoa: any) {
+    this.pessoasService.excluir(pessoa.codigo).then(() => {
+       if (this.grid.first === 0) {
+         this.filtro.pagina = 0;
+         this.pessoasService.pesquisar(this.filtro).then(pessoasEncontrados => {
+           this.pessoas = pessoasEncontrados.pessoas;
+           this.totalRegistros = pessoasEncontrados.total;
+         });
+       } else {
+         this.grid.first = 0;
+       }
+
+       this.toasty.success('Pessoa excluída com sucesso!');
+     }).catch(erro => this.errorHandle.handle(erro));
+   }
+
+  confirmarExclusao(pessoa: any) {
+    this.confirmacao.confirm({ message: `Deseja excluir a pessoa ${pessoa.nome}?`,
+                               accept: () => {
+                                 this.excluir(pessoa);
+                               },
+                               reject: () => {
+                               } });
   }
 
 }

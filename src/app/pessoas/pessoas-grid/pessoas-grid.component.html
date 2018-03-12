@@ -1,6 +1,6 @@
 <p-dataTable [value]="pessoas" [responsive]="true" emptyMessage="Nenhuma pessoa encontrada."
              [paginator]="true" [rows]="filtro.itensPorPagina" [rows]="filtro.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros"
-             (onLazyLoad)="aoMudarPagina($event)">
+             (onLazyLoad)="aoMudarPagina($event)" #tabela >
   <p-column field="nome" header="Nome"></p-column>
   <p-column field="enderecoPessoa.cidade" header="Cidade"></p-column>
   <p-column field="enderecoPessoa.estado" header="Estado" styleClass="col-estado"></p-column>
@@ -15,9 +15,9 @@
     </ng-template>
   </p-column>
   <p-column styleClass="col-acoes">
-    <ng-template pTemplate="body">
+    <ng-template let-pessoa="rowData" pTemplate="body">
       <a icon="fa-pencil" pButton pTooltip="Editar Pessoa" tooltipPosition="top" ></a>
-      <button icon="fa-trash" pButton pTooltip="Excluir Pessoa" tooltipPosition="top" ></button>
+      <button icon="fa-trash" pButton pTooltip="Excluir Pessoa" tooltipPosition="top" (click)="confirmarExclusao(pessoa)" ></button>
     </ng-template>
   </p-column>
 </p-dataTable>
