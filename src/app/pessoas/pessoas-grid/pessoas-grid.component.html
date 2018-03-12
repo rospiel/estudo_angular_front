@@ -2,14 +2,14 @@
              [paginator]="true" [rows]="filtro.itensPorPagina" [rows]="filtro.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros"
              (onLazyLoad)="aoMudarPagina($event)">
   <p-column field="nome" header="Nome"></p-column>
-  <p-column field="cidade" header="Cidade"></p-column>
-  <p-column field="estado" header="Estado" styleClass="col-estado"></p-column>
-  <p-column field="status" header="Status" styleClass="col-status" >
+  <p-column field="enderecoPessoa.cidade" header="Cidade"></p-column>
+  <p-column field="enderecoPessoa.estado" header="Estado" styleClass="col-estado"></p-column>
+  <p-column field="enderecoPessoa.status" header="Status" styleClass="col-status" >
     <ng-template let-pessoa="rowData" pTemplate="body" >
-      <span style="color: green;" *ngIf="pessoa.status" pTooltip="Clique para desativar" tooltipPosition="top">
+      <span style="color: green;" *ngIf="pessoa.ativo" pTooltip="Clique para desativar" tooltipPosition="top">
         {{ 'Ativo' }}
       </span>
-      <span style="color: red;" *ngIf="pessoa.status == false" pTooltip="Clique para ativar" tooltipPosition="top">
+      <span style="color: red;" *ngIf="pessoa.ativo == false" pTooltip="Clique para ativar" tooltipPosition="top">
         {{ 'Inativo' }}
       </span>
     </ng-template>
