@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+
+import { ToastyService } from 'ng2-toasty';
 
 import { BarraAguardeService } from '../shared/barra-aguarde/BarraAguardeService.service';
-import { ToastyService } from 'ng2-toasty';
+
 
 @Injectable()
 export class ErrorHandlerService {
@@ -14,6 +17,12 @@ export class ErrorHandlerService {
 
     if (typeof errorResponse === 'string') {
       mensagem = errorResponse;
+    } else if (errorResponse instanceof Response  && ( errorResponse.status >= 400 && errorResponse.status < 500 )) {
+      let erros;
+      erros = errorResponse.json();
+      mensagem = erros[0].mensagem;
+      console.log('Ocorreu um erro: ', erros[0].mensagemDesenvolvedor);
+
     } else {
       mensagem = 'Erro ao processar serviço remoto. Tente novamente.';
       console.log('Ocorreu um erro: ', errorResponse);
