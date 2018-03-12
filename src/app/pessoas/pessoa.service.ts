@@ -93,4 +93,15 @@ export class PessoaService {
     });
   }
 
+  ativar(codigo: number, ativo: boolean): Promise<void> {
+    this.barraAguardeService.mostrarBarra();
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    headers.append('Content-Type', 'application/json');
+
+    return this.http.put(`${this.pessoasUrl}/${codigo}/ativo`, ativo, { headers }).toPromise().then(() => {
+      this.barraAguardeService.esconderBarra();
+    });
+  }
+
 }

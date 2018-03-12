@@ -60,4 +60,20 @@ export class PessoasGridComponent {
                                } });
   }
 
+  mudarStatus(pessoa: any) {
+    this.pessoasService.ativar(pessoa.codigo, pessoa.ativo ? false : true).then(() => {
+      if (this.grid.first === 0) {
+        this.filtro.pagina = 0;
+        this.pessoasService.pesquisar(this.filtro).then(pessoasEncontrados => {
+          this.pessoas = pessoasEncontrados.pessoas;
+          this.totalRegistros = pessoasEncontrados.total;
+        });
+      } else {
+        this.grid.first = 0;
+      }
+
+      this.toasty.success('Status atualizado com sucesso!');
+    }).catch(erro => this.errorHandle.handle(erro));
+  }
+
 }

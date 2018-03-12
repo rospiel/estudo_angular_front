@@ -6,12 +6,12 @@
   <p-column field="enderecoPessoa.estado" header="Estado" styleClass="col-estado"></p-column>
   <p-column field="enderecoPessoa.status" header="Status" styleClass="col-status" >
     <ng-template let-pessoa="rowData" pTemplate="body" >
-      <span style="color: green;" *ngIf="pessoa.ativo" pTooltip="Clique para desativar" tooltipPosition="top">
-        {{ 'Ativo' }}
-      </span>
-      <span style="color: red;" *ngIf="pessoa.ativo == false" pTooltip="Clique para ativar" tooltipPosition="top">
-        {{ 'Inativo' }}
-      </span>
+        <a href="javascript:;" style="color: green;" *ngIf="pessoa.ativo" pTooltip="Clique para desativar" tooltipPosition="top" (click)="mudarStatus(pessoa)" >
+          {{ 'Ativo' }}
+        </a>
+        <a href="javascript:;" style="color: red;" *ngIf="pessoa.ativo == false" pTooltip="Clique para ativar" tooltipPosition="top" (click)="mudarStatus(pessoa)">
+          {{ 'Inativo' }}
+        </a>
     </ng-template>
   </p-column>
   <p-column styleClass="col-acoes">
