@@ -24,8 +24,8 @@ export class LancamentosGridComponent {
   @Input() lancamentos = [];
   @Input() filtro: LancamentoFiltro;
   @Input() totalRegistros;
+  @Input() totalValor: any = 0;
   @ViewChild('tabela') grid;
-  totalValor: any = 0;
 
   aoMudarPagina(event: LazyLoadEvent) {
     const pagina = event.first / event.rows;
@@ -35,7 +35,7 @@ export class LancamentosGridComponent {
     this.lancamentoService.pesquisar(this.filtro).then(lancamentosEncontrados => {
       this.lancamentos = lancamentosEncontrados.lancamentos;
       this.totalRegistros = lancamentosEncontrados.total;
-      this.totalizar();
+      this.totalValor = this.lancamentoService.totalizar(this.lancamentos);
     }).catch(erro => this.errorHandle.handle(erro));
   }
 
@@ -46,6 +46,7 @@ export class LancamentosGridComponent {
         this.lancamentoService.pesquisar(this.filtro).then(lancamentosEncontrados => {
           this.lancamentos = lancamentosEncontrados.lancamentos;
           this.totalRegistros = lancamentosEncontrados.total;
+          this.totalValor = this.lancamentoService.totalizar(this.lancamentos);
         });
       } else {
         /* Necessário para resetar a posição da pagina do grid e consequentemente fazer a nova pesquisa sem o registro removido */
@@ -64,17 +65,8 @@ export class LancamentosGridComponent {
                                  this.excluir(lancamento);
                                },
                                reject: () => {
-                                 this.totalizar();
+                                this.totalValor = this.lancamentoService.totalizar(this.lancamentos);
                                } });
-  }
-
-  totalizar() {
-    this.totalValor = 0;
-    this.lancamentos.forEach((lancamento: any) => {
-      if (lancamento['valor'] != null) {
-        this.totalValor = this.totalValor + parseFloat(lancamento['valor']);
-      }
-    });
   }
 
 }

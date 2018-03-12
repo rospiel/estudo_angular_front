@@ -16,6 +16,7 @@ export class LancamentosPesquisaComponent implements OnInit {
   filtro = new LancamentoFiltro();
   pt: any;
   totalRegistros = 0;
+  totalValor: any = 0;
 
   constructor(private lancamentoService: LancamentoService,
               private errorHandle: ErrorHandlerService) { }
@@ -40,6 +41,7 @@ export class LancamentosPesquisaComponent implements OnInit {
     this.lancamentoService.pesquisar(this.filtro).then(lancamentosEncontrados => {
       this.lancamentos = lancamentosEncontrados.lancamentos;
       this.totalRegistros = lancamentosEncontrados.total;
+      this.totalValor = this.lancamentoService.totalizar(this.lancamentos);
     }).catch(erro => this.errorHandle.handle(erro));
   }
 }

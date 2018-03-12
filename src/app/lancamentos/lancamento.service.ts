@@ -70,4 +70,15 @@ export class LancamentoService {
 
     return this.http.delete(`${this.lancamentosUrl}/${codigo}`, { headers }).toPromise().then(() => null);
   }
+
+  totalizar(lancamentos: any): Number {
+    let totalValor = 0;
+    lancamentos.forEach((lancamento: any) => {
+      if (lancamento['valor'] != null) {
+        totalValor = totalValor + parseFloat(lancamento['valor']);
+      }
+    });
+
+    return totalValor;
+  }
 }
