@@ -1,9 +1,12 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { LancamentoFiltro, LancamentoService } from '../lancamento.service';
+
 import { LazyLoadEvent } from 'primeng/components/common/api';
 import { ToastyService } from 'ng2-toasty';
 import { ConfirmationService } from 'primeng/components/common/api';
+
+import { LancamentoFiltro, LancamentoService } from '../lancamento.service';
+import { ErrorHandlerService } from '../../core/error-handler.service';
 
 @Component({
   selector: 'app-lancamentos-grid',
@@ -15,7 +18,8 @@ export class LancamentosGridComponent {
   constructor(private lancamentoService: LancamentoService,
               private toasty: ToastyService,
               private confirmacao: ConfirmationService,
-              private formatadorDecimal: DecimalPipe) { }
+              private formatadorDecimal: DecimalPipe,
+              private errorHandle: ErrorHandlerService) { }
 
   @Input() lancamentos = [];
   @Input() filtro: LancamentoFiltro;
@@ -32,7 +36,7 @@ export class LancamentosGridComponent {
       this.lancamentos = lancamentosEncontrados.lancamentos;
       this.totalRegistros = lancamentosEncontrados.total;
       this.totalizar();
-    });
+    }).catch(erro => this.errorHandle.handle(erro));
   }
 
   excluir(lancamento: any) {
@@ -49,7 +53,7 @@ export class LancamentosGridComponent {
       }
 
       this.toasty.success('Lançamento excluído com sucesso!');
-    });
+    }).catch(erro => this.errorHandle.handle(erro));
   }
 
   confirmarExclusao(lancamento: any) {
