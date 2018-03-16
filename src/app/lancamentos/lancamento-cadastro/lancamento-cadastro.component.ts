@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { CategoriaService } from '../../categorias/categoria.service';
 import { BarraAguardeService } from './../../shared/barra-aguarde/BarraAguardeService.service';
+import { PessoaService } from '../../pessoas/pessoa.service';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -19,15 +20,12 @@ export class LancamentoCadastroComponent implements OnInit {
 
   categorias = [];
 
-  pessoas = [
-    { label: 'Cauê André Castro', value: 1 },
-    { label: 'Pedro Henrique Benjamin Vitor Rocha', value: 2 },
-    { label: 'Isabel Marina Brenda Barros', value: 3 }
-  ];
+  pessoas = [];
 
   constructor(private categoriaService: CategoriaService,
               private errorHandlerService: ErrorHandlerService,
-              private barraAguardeService: BarraAguardeService) { }
+              private barraAguardeService: BarraAguardeService,
+              private pessoaService: PessoaService) { }
 
   ngOnInit() {
     this.pt = {
@@ -43,6 +41,7 @@ export class LancamentoCadastroComponent implements OnInit {
     };
 
     this.carregarCategorias();
+    this.carregarPessoas();
     this.barraAguardeService.esconderBarra();
 
   }
@@ -51,6 +50,14 @@ export class LancamentoCadastroComponent implements OnInit {
     return this.categoriaService.pesquisarTodos().then(categorias => {
       this.categorias = categorias.map(categoria => {
         return { label: categoria.nome, value: categorias.codigo };
+      });
+    }).catch(erro => this.errorHandlerService.handle(erro));
+  }
+
+  carregarPessoas() {
+    return this.pessoaService.pesquisarTodos().then(pessoas => {
+      this.pessoas = pessoas.pessoas.map(pessoa => {
+        return { label: pessoa.nome, value: pessoa.codigo };
       });
     }).catch(erro => this.errorHandlerService.handle(erro));
   }
