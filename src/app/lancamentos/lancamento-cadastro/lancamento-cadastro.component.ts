@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ErrorHandlerService } from './../../core/error-handler.service';
+import { CategoriaService } from '../../categorias/categoria.service';
+import { BarraAguardeService } from './../../shared/barra-aguarde/BarraAguardeService.service';
+
 @Component({
   selector: 'app-lancamento-cadastro',
   templateUrl: './lancamento-cadastro.component.html',
@@ -13,10 +17,7 @@ export class LancamentoCadastroComponent implements OnInit {
     { label: 'Despesa', value: 'DESPESA' }
   ];
 
-  categorias = [
-    { label: 'Alimentação', value: 1 },
-    { label: 'Transporte', value: 2 }
-  ];
+  categorias = [];
 
   pessoas = [
     { label: 'Cauê André Castro', value: 1 },
@@ -24,7 +25,9 @@ export class LancamentoCadastroComponent implements OnInit {
     { label: 'Isabel Marina Brenda Barros', value: 3 }
   ];
 
-  constructor() { }
+  constructor(private categoriaService: CategoriaService,
+              private errorHandlerService: ErrorHandlerService,
+              private barraAguardeService: BarraAguardeService) { }
 
   ngOnInit() {
     this.pt = {
@@ -39,6 +42,17 @@ export class LancamentoCadastroComponent implements OnInit {
       clear: 'Limpar'
     };
 
+    this.carregarCategorias();
+    this.barraAguardeService.esconderBarra();
+
+  }
+
+  carregarCategorias() {
+    return this.categoriaService.pesquisarTodos().then(categorias => {
+      this.categorias = categorias.map(categoria => {
+        return { label: categoria.nome, value: categorias.codigo };
+      });
+    }).catch(erro => this.errorHandlerService.handle(erro));
   }
 
 }

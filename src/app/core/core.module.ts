@@ -11,6 +11,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { BarraAguardeService } from '../shared/barra-aguarde/BarraAguardeService.service';
 import { LancamentoService } from '../lancamentos/lancamento.service';
 import { PessoaService } from '../pessoas/pessoa.service';
+import { CategoriaService } from '../categorias/categoria.service';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { PessoaService } from '../pessoas/pessoa.service';
     PessoaService,
     ConfirmationService,
     DecimalPipe,
+    CategoriaService
   ]
 })
 export class CoreModule { }
