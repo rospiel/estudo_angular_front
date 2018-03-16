@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
-import { BarraAguardeService } from '../shared/barra-aguarde/BarraAguardeService.service';
+
 /* Conversor de Data */
 import * as moment from 'moment';
+
+import { BarraAguardeService } from '../shared/barra-aguarde/BarraAguardeService.service';
+import { Lancamento } from '../core/model';
 
 export class LancamentoFiltro {
   descricao: string;
@@ -80,5 +83,13 @@ export class LancamentoService {
     });
 
     return totalValor;
+  }
+
+  adicionar(lancamento: Lancamento): Promise<Lancamento> {
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    headers.append('Content-Type', 'Application/json');
+
+    return this.http.post(this.lancamentosUrl, JSON.stringify(lancamento), { headers }).toPromise().then(response => response.json());
   }
 }

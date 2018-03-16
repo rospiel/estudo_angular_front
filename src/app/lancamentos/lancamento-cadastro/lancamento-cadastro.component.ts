@@ -1,9 +1,14 @@
+import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+
+import { ToastyService } from 'ng2-toasty';
 
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { CategoriaService } from '../../categorias/categoria.service';
 import { BarraAguardeService } from './../../shared/barra-aguarde/BarraAguardeService.service';
 import { PessoaService } from '../../pessoas/pessoa.service';
+import { Lancamento } from '../../core/model';
+import { LancamentoService } from '../lancamento.service';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -22,10 +27,14 @@ export class LancamentoCadastroComponent implements OnInit {
 
   pessoas = [];
 
+  lancamento = new Lancamento;
+
   constructor(private categoriaService: CategoriaService,
               private errorHandlerService: ErrorHandlerService,
               private barraAguardeService: BarraAguardeService,
-              private pessoaService: PessoaService) { }
+              private pessoaService: PessoaService,
+              private lancamentoService: LancamentoService,
+              private toastyService: ToastyService) { }
 
   ngOnInit() {
     this.pt = {
@@ -49,7 +58,7 @@ export class LancamentoCadastroComponent implements OnInit {
   carregarCategorias() {
     return this.categoriaService.pesquisarTodos().then(categorias => {
       this.categorias = categorias.map(categoria => {
-        return { label: categoria.nome, value: categorias.codigo };
+        return { label: categoria.nome, value: categoria.codigo };
       });
     }).catch(erro => this.errorHandlerService.handle(erro));
   }
@@ -59,6 +68,16 @@ export class LancamentoCadastroComponent implements OnInit {
       this.pessoas = pessoas.pessoas.map(pessoa => {
         return { label: pessoa.nome, value: pessoa.codigo };
       });
+    }).catch(erro => this.errorHandlerService.handle(erro));
+  }
+
+  salvar(form: FormControl) {
+    this.barraAguardeService.mostrarBarra();
+    this.lancamentoService.adicionar(this.lancamento).then(() => {
+      this.toastyService.success('Lançamento adicionado com sucesso!');
+      form.reset();
+      this.lancamento = new Lancamento();
+      this.barraAguardeService.esconderBarra();
     }).catch(erro => this.errorHandlerService.handle(erro));
   }
 
