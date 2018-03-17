@@ -41,3 +41,8 @@
 .navbar-menuitem a:hover {
   color: #fff;
 }
+
+/* CSS Estilização dos links ativos conforme rota selecionada */
+.navbar-menuitem.ativo {
+  background-color: #494541;
+}
