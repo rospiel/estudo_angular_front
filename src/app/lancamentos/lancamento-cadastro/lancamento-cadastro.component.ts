@@ -1,5 +1,6 @@
 import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { ToastyService } from 'ng2-toasty';
 
@@ -34,7 +35,9 @@ export class LancamentoCadastroComponent implements OnInit {
               private barraAguardeService: BarraAguardeService,
               private pessoaService: PessoaService,
               private lancamentoService: LancamentoService,
-              private toastyService: ToastyService) { }
+              private toastyService: ToastyService,
+              /* Se faz necessário pra captar parâmetros passados na rota */
+              private rota: ActivatedRoute) { }
 
   ngOnInit() {
     this.pt = {
