@@ -1,6 +1,6 @@
 import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ToastyService } from 'ng2-toasty';
 
@@ -10,6 +10,7 @@ import { BarraAguardeService } from './../../shared/barra-aguarde/BarraAguardeSe
 import { PessoaService } from '../../pessoas/pessoa.service';
 import { Lancamento } from '../../core/model';
 import { LancamentoService } from '../lancamento.service';
+import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -38,7 +39,8 @@ export class LancamentoCadastroComponent implements OnInit {
               private lancamentoService: LancamentoService,
               private toastyService: ToastyService,
               /* Se faz necessário pra captar parâmetros passados na rota */
-              private rota: ActivatedRoute) { }
+              private rota: ActivatedRoute,
+              private redirecionar: Router) { }
 
   ngOnInit() {
     this.pt = {
@@ -97,13 +99,27 @@ export class LancamentoCadastroComponent implements OnInit {
     }
   }
 
+  novo(form: FormControl) {
+    form.reset();
+
+    /*
+      Necessário visto que na época do desenvolvimento constava um
+      bug que ignorava a nova instância de lançamento, incidente
+      encontrado no git, aguardando resolução https://github.com/angular/angular/issues/15741
+    */
+    setTimeout(function() {
+      this.lancamento = new Lancamento();
+    }.bind(this), 1);
+
+    this.redirecionar.navigate(['/lancamentos/novo']);
+  }
+
   salvar(form: FormControl) {
     this.barraAguardeService.mostrarBarra();
-    this.lancamentoService.adicionar(this.lancamento).then(() => {
+    this.lancamentoService.adicionar(this.lancamento).then(lancamentoAdicionado => {
       this.toastyService.success('Lançamento adicionado com sucesso!');
-      form.reset();
-      this.lancamento = new Lancamento();
       this.barraAguardeService.esconderBarra();
+      this.redirecionar.navigate(['/lancamentos', lancamentoAdicionado.codigo]);
     }).catch(erro => this.errorHandlerService.handle(erro));
   }
 
