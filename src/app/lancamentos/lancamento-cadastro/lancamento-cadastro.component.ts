@@ -1,6 +1,7 @@
 import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { ToastyService } from 'ng2-toasty';
 
@@ -39,7 +40,8 @@ export class LancamentoCadastroComponent implements OnInit {
               private toastyService: ToastyService,
               /* Se faz necessário pra captar parâmetros passados na rota */
               private rota: ActivatedRoute,
-              private redirecionar: Router) { }
+              private redirecionar: Router,
+              private titulo: Title) { }
 
   ngOnInit() {
     this.pt = {
@@ -54,12 +56,14 @@ export class LancamentoCadastroComponent implements OnInit {
       clear: 'Limpar'
     };
 
+    this.titulo.setTitle('Novo Lançamento');
     this.tituloPagina = 'Cadastro de Lançamento';
     const codigoLancamento = this.rota.snapshot.params['codigo'];
 
     if (codigoLancamento) {
       this.carregarLancamento(codigoLancamento);
       this.tituloPagina = 'Edição de Lançamento';
+      this.titulo.setTitle('Edição de Lançamento');
     }
 
     this.carregarCategorias();

@@ -2,6 +2,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DecimalPipe } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 import { ToastyModule } from 'ng2-toasty';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
@@ -36,7 +37,8 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component'
     PessoaService,
     ConfirmationService,
     DecimalPipe,
-    CategoriaService
+    CategoriaService,
+    Title
   ]
 })
 export class CoreModule { }

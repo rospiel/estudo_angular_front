@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import { LazyLoadEvent } from 'primeng/components/common/api';
 
@@ -19,7 +20,8 @@ export class LancamentosPesquisaComponent implements OnInit {
   totalValor: any = 0;
 
   constructor(private lancamentoService: LancamentoService,
-              private errorHandle: ErrorHandlerService) { }
+              private errorHandle: ErrorHandlerService,
+              private titulo: Title) { }
 
   ngOnInit() {
     this.pt = {
@@ -33,6 +35,8 @@ export class LancamentosPesquisaComponent implements OnInit {
       today: 'Hoje',
       clear: 'Limpar'
     };
+
+    this.titulo.setTitle('Pesquisa de Lançamentos');
   }
 
   pesquisar(pagina = 0) {
