@@ -10,7 +10,6 @@ import { BarraAguardeService } from './../../shared/barra-aguarde/BarraAguardeSe
 import { PessoaService } from '../../pessoas/pessoa.service';
 import { Lancamento } from '../../core/model';
 import { LancamentoService } from '../lancamento.service';
-import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-lancamento-cadastro',

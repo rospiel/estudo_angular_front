@@ -13,6 +13,7 @@ import { BarraAguardeService } from '../shared/barra-aguarde/BarraAguardeService
 import { LancamentoService } from '../lancamentos/lancamento.service';
 import { PessoaService } from '../pessoas/pessoa.service';
 import { CategoriaService } from '../categorias/categoria.service';
+import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { CategoriaService } from '../categorias/categoria.service';
     ToastyModule.forRoot(),
     ConfirmDialogModule,
   ],
-  declarations: [NavbarComponent],
+  declarations: [NavbarComponent, PaginaNaoEncontradaComponent],
   exports: [
     NavbarComponent,
     ToastyModule,
