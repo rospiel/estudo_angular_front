@@ -25,10 +25,11 @@ export class LancamentoCadastroComponent implements OnInit {
   ];
 
   categorias = [];
-
   pessoas = [];
-
   lancamento = new Lancamento;
+  tituloPagina: string;
+
+
 
   constructor(private categoriaService: CategoriaService,
               private errorHandlerService: ErrorHandlerService,
@@ -52,10 +53,24 @@ export class LancamentoCadastroComponent implements OnInit {
       clear: 'Limpar'
     };
 
+    this.tituloPagina = 'Cadastro de Lançamento';
+    const codigoLancamento = this.rota.snapshot.params['codigo'];
+
+    if (codigoLancamento) {
+      this.carregarLancamento(codigoLancamento);
+      this.tituloPagina = 'Edição de Lançamento';
+    }
+
     this.carregarCategorias();
     this.carregarPessoas();
     this.barraAguardeService.esconderBarra();
 
+  }
+
+  carregarLancamento(codigo: number) {
+    this.lancamentoService.pesquisarPorCodigo(codigo).then(lancamento => {
+      this.lancamento = lancamento;
+    }).catch(erro => this.errorHandlerService.handle(erro));
   }
 
   carregarCategorias() {
@@ -74,12 +89,29 @@ export class LancamentoCadastroComponent implements OnInit {
     }).catch(erro => this.errorHandlerService.handle(erro));
   }
 
+  submeter(form: FormControl) {
+    if (this.lancamento.codigo) {
+      this.editar(form);
+    } else {
+      this.salvar(form);
+    }
+  }
+
   salvar(form: FormControl) {
     this.barraAguardeService.mostrarBarra();
     this.lancamentoService.adicionar(this.lancamento).then(() => {
       this.toastyService.success('Lançamento adicionado com sucesso!');
       form.reset();
       this.lancamento = new Lancamento();
+      this.barraAguardeService.esconderBarra();
+    }).catch(erro => this.errorHandlerService.handle(erro));
+  }
+
+  editar(form: FormControl) {
+    this.barraAguardeService.mostrarBarra();
+    this.lancamentoService.editar(this.lancamento).then(lancamento => {
+      this.lancamento = lancamento;
+      this.toastyService.success('Lançamento alterado com sucesso!');
       this.barraAguardeService.esconderBarra();
     }).catch(erro => this.errorHandlerService.handle(erro));
   }

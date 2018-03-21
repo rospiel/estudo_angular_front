@@ -55,6 +55,23 @@ export class LancamentoService {
 
   }
 
+  pesquisarPorCodigo(codigo: number): Promise<any> {
+    this.barraAguardeService.mostrarBarra();
+
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+
+    const promessa = this.http.get(`${this.lancamentosUrl}/${codigo}`, { headers }).toPromise().then(response => {
+      this.barraAguardeService.esconderBarra();
+      const lancamentoEncontrado = response.json();
+      this.validarDataLancamento([lancamentoEncontrado]);
+
+      return lancamentoEncontrado;
+    });
+
+    return promessa;
+  }
+
   validarFiltro(filtro: any, nomeFiltro: string, tipoFiltro: string, params: URLSearchParams): URLSearchParams {
     if (filtro) {
       if ('string' === tipoFiltro) {
@@ -91,5 +108,51 @@ export class LancamentoService {
     headers.append('Content-Type', 'Application/json');
 
     return this.http.post(this.lancamentosUrl, JSON.stringify(lancamento), { headers }).toPromise().then(response => response.json());
+  }
+
+  editar(lancamento: Lancamento): Promise<Lancamento> {
+    this.barraAguardeService.mostrarBarra();
+
+    /* Necessário visto que na documentação do back não requer estes atributos, somente os códigos */
+    this.removerAtributos(lancamento);
+
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    headers.append('Content-Type', 'Application/json');
+
+    return this.http.put(`${this.lancamentosUrl}/${lancamento.codigo}`, JSON.stringify(lancamento), { headers }).toPromise().
+      then(response => {
+        const lancamentoAlterado = response.json();
+        this.validarDataLancamento([lancamentoAlterado]);
+
+        this.barraAguardeService.esconderBarra();
+        return lancamentoAlterado;
+    });
+  }
+
+  validarDataLancamento(lancamentos: Lancamento[]) {
+    for (const lancamento of lancamentos) {
+      lancamento.dataVencimento = moment(lancamento.dataVencimento, 'YYYY-MM-DD').toDate();
+      lancamento.dataPagamento = lancamento.dataPagamento ? moment(lancamento.dataPagamento, 'YYYY-MM-DD').toDate() : null;
+    }
+  }
+
+  removerAtributos(lancamento: Lancamento) {
+    delete lancamento.categoria['nome'];
+    delete lancamento.pessoa['nome'];
+    delete lancamento.pessoa['ativo'];
+    delete lancamento.pessoa['enderecoPessoa'];
+  }
+
+  converterParaDate(data: string): Date {
+    let dataConvert = null;
+
+    if (moment(data).isValid) {
+      dataConvert = moment(data, 'YYYY-MM-DD').toDate;
+    } else {
+      console.log(`Data informada inválida: ${data}`);
+    }
+
+    return dataConvert;
   }
 }

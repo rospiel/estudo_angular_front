@@ -20,9 +20,9 @@ registerLocaleData(localePt, 'pt-BR');
 
 const rotas: Routes = [
   { path: 'lancamentos', component: LancamentosPesquisaComponent },
+  { path: 'lancamentos/novo', component: LancamentoCadastroComponent },
   /* Rota para satisfazer a busca de lançamento pelo código */
   { path: 'lancamentos/:codigo', component: LancamentoCadastroComponent },
-  { path: 'lancamentos/novo', component: LancamentoCadastroComponent },
   { path: 'pessoas', component: PessoasPesquisaComponent }
 ];
 
