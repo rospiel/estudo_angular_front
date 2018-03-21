@@ -19,6 +19,7 @@ import { PessoasPesquisaComponent } from './pessoas/pessoas-pesquisa/pessoas-pes
 registerLocaleData(localePt, 'pt-BR');
 
 const rotas: Routes = [
+  { path: '', redirectTo: 'lancamentos', pathMatch: 'full' },
   { path: 'lancamentos', component: LancamentosPesquisaComponent },
   { path: 'lancamentos/novo', component: LancamentoCadastroComponent },
   /* Rota para satisfazer a busca de lançamento pelo código */
