@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { ToastyService } from 'ng2-toasty';
 
@@ -24,15 +25,18 @@ export class PessoaCadastroComponent implements OnInit {
               private pessoaService: PessoaService,
               private toastyService: ToastyService,
               private rota: ActivatedRoute,
-              private redirecionar: Router) { }
+              private redirecionar: Router,
+              private titulo: Title) { }
 
   ngOnInit() {
     this.tituloPagina = 'Cadastro de Pessoa';
+    this.titulo.setTitle('Nova Pessoa');
     const codigoPessoa = this.rota.snapshot.params['codigo'];
 
     if (codigoPessoa) {
       this.carregarPessoa(codigoPessoa);
       this.tituloPagina = 'Edição de Pessoa';
+      this.titulo.setTitle('Edição de Pessoa');
     }
 
     this.barraAguardeService.esconderBarra();
