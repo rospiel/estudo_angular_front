@@ -29,12 +29,12 @@ registerLocaleData(localePt, 'pt-BR');
     BrowserAnimationsModule,
     HttpModule,
     FormsModule,
-    AppRoutingModule,
 
     LancamentosModule,
     PessoasModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    AppRoutingModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR'}
