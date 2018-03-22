@@ -18,6 +18,7 @@ import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.compo
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { PessoasGridComponent } from './pessoas-grid/pessoas-grid.component';
 import { SharedModule } from '../shared/shared.module';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { SharedModule } from '../shared/shared.module';
     DropdownModule,
     InputMaskModule,
     CurrencyMaskModule,
-    SharedModule
+    SharedModule,
+    AppRoutingModule
   ],
   declarations: [
     PessoaCadastroComponent,

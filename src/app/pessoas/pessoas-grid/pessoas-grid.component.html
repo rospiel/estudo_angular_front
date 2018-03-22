@@ -16,7 +16,7 @@
   </p-column>
   <p-column styleClass="col-acoes">
     <ng-template let-pessoa="rowData" pTemplate="body">
-      <a icon="fa-pencil" pButton pTooltip="Editar Pessoa" tooltipPosition="top" ></a>
+      <a icon="fa-pencil" pButton pTooltip="Editar Pessoa" [routerLink]="['/pessoas', pessoa.codigo]"  tooltipPosition="top" ></a>
       <button icon="fa-trash" pButton pTooltip="Excluir Pessoa" tooltipPosition="top" (click)="confirmarExclusao(pessoa)" ></button>
     </ng-template>
   </p-column>

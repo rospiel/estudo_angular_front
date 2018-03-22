@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ToastyService } from 'ng2-toasty';
 
@@ -20,10 +21,21 @@ export class PessoaCadastroComponent implements OnInit {
   constructor(private errorHandlerService: ErrorHandlerService,
               private barraAguardeService: BarraAguardeService,
               private pessoaService: PessoaService,
-              private toastyService: ToastyService) { }
+              private toastyService: ToastyService,
+              private redirecionar: Router) { }
 
   ngOnInit() {
     this.barraAguardeService.esconderBarra();
+  }
+
+  novo(form: FormControl) {
+    form.reset();
+
+    setTimeout(function() {
+      this.pessoa = new Pessoa();
+    }.bind(this), 1);
+
+    this.redirecionar.navigate(['/pessoas/novo']);
   }
 
   salvar(form: FormControl) {
