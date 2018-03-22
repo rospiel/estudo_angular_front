@@ -73,6 +73,21 @@ export class PessoaService {
     return promessa;
   }
 
+  pesquisarPorCodigo(codigo: number): Promise<any> {
+    this.barraAguardeService.mostrarBarra();
+
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+
+    const promessa = this.http.get(`${this.pessoasUrl}/${codigo}`, { headers }).toPromise().then(response => {
+      this.barraAguardeService.esconderBarra();
+      const pessoaEncontrada = response.json();
+      return pessoaEncontrada;
+    });
+
+    return promessa;
+  }
+
   validarFiltro(filtro: any, nomeFiltro: string, params: URLSearchParams): URLSearchParams {
     if (filtro) {
       params.set(nomeFiltro, filtro);
@@ -114,4 +129,19 @@ export class PessoaService {
     return this.http.post(this.pessoasUrl, JSON.stringify(pessoa), { headers }).toPromise().then(response => response.json());
   }
 
+  editar(pessoa: Pessoa): Promise<Pessoa> {
+    this.barraAguardeService.mostrarBarra();
+
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    headers.append('Content-Type', 'Application/json');
+
+    return this.http.put(`${this.pessoasUrl}/${pessoa.codigo}`, JSON.stringify(pessoa), { headers }).toPromise().
+      then(response => {
+        const pessoaAlterada = response.json();
+
+        this.barraAguardeService.esconderBarra();
+        return pessoaAlterada;
+    });
+  }
 }

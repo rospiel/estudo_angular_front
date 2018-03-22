@@ -1,8 +1,8 @@
 <div class="container">
-  <form #pessoaForm="ngForm" (ngSubmit)="salvar(pessoaForm)" >
+  <form #pessoaForm="ngForm" (ngSubmit)="submeter(pessoaForm)" >
     <div class="ui-g">
       <div class="ui-g-12">
-        <h1>Nova Pessoa</h1>
+        <h1>{{ tituloPagina }}</h1>
       </div>
 
       <div class="ui-g-12  ui-fluid">

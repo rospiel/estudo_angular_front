@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastyService } from 'ng2-toasty';
 
@@ -17,15 +17,33 @@ import { Pessoa } from '../../core/model';
 export class PessoaCadastroComponent implements OnInit {
 
   pessoa = new Pessoa();
+  tituloPagina: string;
 
   constructor(private errorHandlerService: ErrorHandlerService,
               private barraAguardeService: BarraAguardeService,
               private pessoaService: PessoaService,
               private toastyService: ToastyService,
+              private rota: ActivatedRoute,
               private redirecionar: Router) { }
 
   ngOnInit() {
+    this.tituloPagina = 'Cadastro de Pessoa';
+    const codigoPessoa = this.rota.snapshot.params['codigo'];
+
+    if (codigoPessoa) {
+      this.carregarPessoa(codigoPessoa);
+      this.tituloPagina = 'Edição de Pessoa';
+    }
+
     this.barraAguardeService.esconderBarra();
+  }
+
+  submeter(form: FormControl) {
+    if (this.pessoa.codigo) {
+      this.editar(form);
+    } else {
+      this.salvar(form);
+    }
   }
 
   novo(form: FormControl) {
@@ -46,6 +64,21 @@ export class PessoaCadastroComponent implements OnInit {
       form.reset();
       this.pessoa = new Pessoa();
       this.barraAguardeService.esconderBarra();
+    }).catch(erro => this.errorHandlerService.handle(erro));
+  }
+
+  editar(form: FormControl) {
+    this.barraAguardeService.mostrarBarra();
+    this.pessoaService.editar(this.pessoa).then(pessoa => {
+      this.pessoa = pessoa;
+      this.toastyService.success('Pessoa alterada com sucesso!');
+      this.barraAguardeService.esconderBarra();
+    }).catch(erro => this.errorHandlerService.handle(erro));
+  }
+
+  carregarPessoa(codigo: number) {
+    this.pessoaService.pesquisarPorCodigo(codigo).then(pessoa => {
+      this.pessoa = pessoa;
     }).catch(erro => this.errorHandlerService.handle(erro));
   }
 
