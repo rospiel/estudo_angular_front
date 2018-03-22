@@ -18,7 +18,7 @@ import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.compo
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { PessoasGridComponent } from './pessoas-grid/pessoas-grid.component';
 import { SharedModule } from '../shared/shared.module';
-import { AppRoutingModule } from '../app-routing.module';
+import { PessoasRoutingModule } from './pessoas-routing.module';
 
 @NgModule({
   imports: [
@@ -35,7 +35,7 @@ import { AppRoutingModule } from '../app-routing.module';
     InputMaskModule,
     CurrencyMaskModule,
     SharedModule,
-    AppRoutingModule
+    PessoasRoutingModule
   ],
   declarations: [
     PessoaCadastroComponent,
