@@ -1,5 +1,5 @@
 <app-barra-aguarde> </app-barra-aguarde>
-<app-navbar></app-navbar>
+<app-navbar *ngIf="exibirNavbar()" ></app-navbar>
 <router-outlet></router-outlet>
 
 <!-- <app-lancamentos-pesquisa> </app-lancamentos-pesquisa> -->

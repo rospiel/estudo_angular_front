@@ -17,6 +17,7 @@ import { LancamentoCadastroComponent } from './lancamentos/lancamento-cadastro/l
 import { PessoasPesquisaComponent } from './pessoas/pessoas-pesquisa/pessoas-pesquisa.component';
 import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada.component';
 import { AppRoutingModule } from './app-routing.module';
+import { SegurancaModule } from './seguranca/seguranca.module';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -34,6 +35,7 @@ registerLocaleData(localePt, 'pt-BR');
     PessoasModule,
     CoreModule,
     SharedModule,
+    SegurancaModule,
     AppRoutingModule
   ],
   providers: [
