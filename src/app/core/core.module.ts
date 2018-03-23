@@ -7,6 +7,8 @@ import { Title } from '@angular/platform-browser';
 import { ToastyModule } from 'ng2-toasty';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
 import { ConfirmationService } from 'primeng/components/common/api';
+import { JwtHelper } from 'angular2-jwt';
+
 
 import { ErrorHandlerService } from './error-handler.service';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -15,6 +17,7 @@ import { LancamentoService } from '../lancamentos/lancamento.service';
 import { PessoaService } from '../pessoas/pessoa.service';
 import { CategoriaService } from '../categorias/categoria.service';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
+import { AutenticacaoService } from '../seguranca/autenticacao.service';
 
 @NgModule({
   imports: [
@@ -38,7 +41,9 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component'
     ConfirmationService,
     DecimalPipe,
     CategoriaService,
-    Title
+    Title,
+    AutenticacaoService,
+    JwtHelper
   ]
 })
 export class CoreModule { }
