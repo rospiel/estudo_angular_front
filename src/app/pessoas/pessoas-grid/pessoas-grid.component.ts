@@ -32,8 +32,7 @@ export class PessoasGridComponent {
     this.pessoasService.pesquisar(this.filtro).then(pessoasEncontrados => {
       this.pessoas = pessoasEncontrados.pessoas;
       this.totalRegistros = pessoasEncontrados.total;
-    });
-  }
+    }).catch(erro => this.errorHandle.handle(erro));  }
 
   excluir(pessoa: any) {
     this.pessoasService.excluir(pessoa.codigo).then(() => {

@@ -20,9 +20,15 @@ export class ErrorHandlerService {
     } else if (errorResponse instanceof Response  && ( errorResponse.status >= 400 && errorResponse.status < 500 )) {
       let erros;
       erros = errorResponse.json();
-      mensagem = erros[0].mensagem ? erros[0].mensagem : 'Erro ao processar serviço remoto. Tente novamente.';
-      console.log('Ocorreu um erro: ', erros[0].mensagemDesenvolvedor ? erros[0].mensagemDesenvolvedor :
-                                                                     'Erro ao processar serviço remoto. Tente novamente.');
+
+      if (erros[0]) {
+        mensagem = erros[0].mensagem ? erros[0].mensagem : 'Erro ao processar serviço remoto. Tente novamente.';
+        console.log('Ocorreu um erro: ', erros[0].mensagemDesenvolvedor ? erros[0].mensagemDesenvolvedor :
+                                                                    'Erro ao processar serviço remoto. Tente novamente.');
+      } else {
+        mensagem = 'Erro ao processar serviço remoto. Tente novamente.';
+        console.log('Ocorreu um erro: ', errorResponse);
+      }
 
     } else {
       mensagem = 'Erro ao processar serviço remoto. Tente novamente.';

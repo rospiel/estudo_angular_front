@@ -1,6 +1,8 @@
-import { PessoaService, PessoaFiltro } from './../pessoa.service';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+
+import { PessoaService, PessoaFiltro } from './../pessoa.service';
+import { ErrorHandlerService } from './../../core/error-handler.service';
 
 @Component({
   selector: 'app-pessoas-pesquisa',
@@ -14,7 +16,8 @@ export class PessoasPesquisaComponent implements OnInit {
   totalRegistros = 0;
 
   constructor(private pessoaService: PessoaService,
-              private titulo: Title) { }
+              private titulo: Title,
+              private errorHandle: ErrorHandlerService) { }
 
   ngOnInit() {
     this.titulo.setTitle('Pesquisa de Pessoas');
@@ -26,7 +29,7 @@ export class PessoasPesquisaComponent implements OnInit {
     this.pessoaService.pesquisar(this.filtro).then(pessoasEncontradas => {
       this.pessoas = pessoasEncontradas.pessoas;
       this.totalRegistros = pessoasEncontradas.total;
-    });
+    }).catch(erro => this.errorHandle.handle(erro));
   }
 
 }
