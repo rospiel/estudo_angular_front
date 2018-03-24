@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, URLSearchParams } from '@angular/http';
+import { /* Http,  Headers, */ URLSearchParams } from '@angular/http';
 
 /* Conversor de Data */
 import * as moment from 'moment';
+import { AuthHttp } from 'angular2-jwt';
 
 import { BarraAguardeService } from '../shared/barra-aguarde/BarraAguardeService.service';
 import { Lancamento } from '../core/model';
@@ -20,15 +21,15 @@ export class LancamentoService {
 
   lancamentosUrl = 'http://localhost:8090/lancamentos';
 
-  constructor(private http: Http,
+  constructor(private http: AuthHttp,
               private barraAguardeService: BarraAguardeService) { }
 
   pesquisar(filtro: LancamentoFiltro): Promise<any> {
     this.barraAguardeService.mostrarBarra();
 
     let params = new URLSearchParams();
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    /* const headers = new Headers(); */
+    /* headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='); */
 
     params = this.validarFiltro(filtro.descricao, 'descricao', 'string', params);
     params = this.validarFiltro(filtro.dataVencimentoInicio, 'dataVencimentoDe', 'date', params);
@@ -36,7 +37,7 @@ export class LancamentoService {
     params = this.validarFiltro(filtro.pagina.toString(), 'page', 'string', params);
     params = this.validarFiltro(filtro.itensPorPagina.toString(), 'size', 'string', params);
 
-    const promessa = this.http.get(`${this.lancamentosUrl}?resumo`, { headers, search: params }).toPromise().then(
+    const promessa = this.http.get(`${this.lancamentosUrl}?resumo`, { /* headers, */ search: params }).toPromise().then(
       response => { const responseJson = response.json();
                     const lancamentos = responseJson.content;
 
@@ -58,10 +59,10 @@ export class LancamentoService {
   pesquisarPorCodigo(codigo: number): Promise<any> {
     this.barraAguardeService.mostrarBarra();
 
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    /* const headers = new Headers(); */
+    /* headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='); */
 
-    const promessa = this.http.get(`${this.lancamentosUrl}/${codigo}`, { headers }).toPromise().then(response => {
+    const promessa = this.http.get(`${this.lancamentosUrl}/${codigo}`, { /* headers */ }).toPromise().then(response => {
       this.barraAguardeService.esconderBarra();
       const lancamentoEncontrado = response.json();
       this.validarDataLancamento([lancamentoEncontrado]);
@@ -85,10 +86,10 @@ export class LancamentoService {
   }
 
   excluir(codigo: number): Promise<void> {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    /* const headers = new Headers(); */
+    /* headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='); */
 
-    return this.http.delete(`${this.lancamentosUrl}/${codigo}`, { headers }).toPromise().then(() => null);
+    return this.http.delete(`${this.lancamentosUrl}/${codigo}`, { /* headers */ }).toPromise().then(() => null);
   }
 
   totalizar(lancamentos: any): Number {
@@ -103,11 +104,11 @@ export class LancamentoService {
   }
 
   adicionar(lancamento: Lancamento): Promise<Lancamento> {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-    headers.append('Content-Type', 'Application/json');
+    /* const headers = new Headers(); */
+    /* headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='); */
+    /* headers.append('Content-Type', 'Application/json'); */
 
-    return this.http.post(this.lancamentosUrl, JSON.stringify(lancamento), { headers }).toPromise().then(response => response.json());
+    return this.http.post(this.lancamentosUrl, JSON.stringify(lancamento), { /* headers */ }).toPromise().then(response => response.json());
   }
 
   editar(lancamento: Lancamento): Promise<Lancamento> {
@@ -116,11 +117,11 @@ export class LancamentoService {
     /* Necessário visto que na documentação do back não requer estes atributos, somente os códigos */
     this.removerAtributos(lancamento);
 
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-    headers.append('Content-Type', 'Application/json');
+    /* const headers = new Headers(); */
+    /* headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='); */
+    /* headers.append('Content-Type', 'Application/json'); */
 
-    return this.http.put(`${this.lancamentosUrl}/${lancamento.codigo}`, JSON.stringify(lancamento), { headers }).toPromise().
+    return this.http.put(`${this.lancamentosUrl}/${lancamento.codigo}`, JSON.stringify(lancamento), { /* headers */ }).toPromise().
       then(response => {
         const lancamentoAlterado = response.json();
         this.validarDataLancamento([lancamentoAlterado]);
