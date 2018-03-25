@@ -55,4 +55,8 @@ export class AutenticacaoService {
     }
   }
 
+  verificarPermissao(permissao: string) {
+    return this.jwtPayload && this.jwtPayload.authorities.includes(permissao);
+  }
+
 }
