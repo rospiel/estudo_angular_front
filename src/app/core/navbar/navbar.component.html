@@ -11,7 +11,7 @@
   </div>
 
   <ul class="navbar-menu" [hidden]="!exibindoMenu">
-    <li class="navbar-usuario">Maria dos Santos</li>
+    <li class="navbar-usuario">{{ autenticacaoService.jwtPayload?.nome }}</li>
     <li class="navbar-menuitem" routerLinkActive="ativo" > <a routerLink="/lancamentos">Lançamentos </a></li>
     <li class="navbar-menuitem" routerLinkActive="ativo" > <a routerLink="/pessoas">Pessoas </a></li>
     <li class="navbar-menuitem" routerLinkActive="ativo" > <a href="javascript:;">Logout </a></li>
