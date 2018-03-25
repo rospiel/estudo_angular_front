@@ -26,7 +26,7 @@ export class AutenticacaoService {
     headers.append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEAw');
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(this.oauthTokenUrl, body, { headers }).toPromise().then(response => {
+    return this.http.post(this.oauthTokenUrl, body, { headers, withCredentials: true }).toPromise().then(response => {
       this.armazenarToken(response.json().access_token);
       this.barraAguardeService.esconderBarra();
     }).catch(erro => {
@@ -57,6 +57,28 @@ export class AutenticacaoService {
 
   verificarPermissao(permissao: string) {
     return this.jwtPayload && this.jwtPayload.authorities.includes(permissao);
+  }
+
+  obterNovoAccessToken(): Promise<void> {
+    const body = 'grant_type=refresh_token';
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEAw');
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+
+    return this.http.post(this.oauthTokenUrl, body, { headers, withCredentials: true } ).toPromise().then(response => {
+      this.armazenarToken(response.json().access_token);
+      return Promise.resolve(null);
+    }).catch(erro => {
+      console.error('Erro ao renovar token.', erro);
+      return Promise.resolve(null);
+    });
+  }
+
+  isAccessTokenInvalido() {
+    const token = localStorage.getItem('token');
+
+    return !token || this.jwtHelper.isTokenExpired(token);
   }
 
 }
