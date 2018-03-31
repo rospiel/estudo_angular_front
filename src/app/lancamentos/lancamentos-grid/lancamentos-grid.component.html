@@ -36,7 +36,8 @@
   <p-column styleClass="col-acoes">
     <ng-template let-lanc="rowData" pTemplate="body">
       <a icon="fa-pencil" pButton pTooltip="Editar Lançamento" [routerLink]="['/lancamentos', lanc.codigo]" tooltipPosition="top"></a> <!-- DIRETIVA icon=fa-pencil AWESOME -->
-      <button icon="fa-trash" pButton pTooltip="Excluir Lançamento" tooltipPosition="top" (click)="confirmarExclusao(lanc)"></button>
+      <button icon="fa-trash" pButton pTooltip="Excluir Lançamento" tooltipPosition="top"
+              (click)="confirmarExclusao(lanc)" [disabled]="!autenticacaoService.verificarPermissao('ROLE_REMOVER_LANCAMENTO')" ></button>
     </ng-template>
   </p-column>
 

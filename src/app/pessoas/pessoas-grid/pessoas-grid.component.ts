@@ -6,6 +6,7 @@ import { ToastyService } from 'ng2-toasty';
 
 import { PessoaService, PessoaFiltro } from './../pessoa.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
+import { AutenticacaoService } from '../../seguranca/autenticacao.service';
 
 @Component({
   selector: 'app-pessoas-grid',
@@ -17,7 +18,8 @@ export class PessoasGridComponent {
   constructor(private pessoasService: PessoaService,
               private confirmacao: ConfirmationService,
               private toasty: ToastyService,
-              private errorHandle: ErrorHandlerService) { }
+              private errorHandle: ErrorHandlerService,
+              private autenticacaoService: AutenticacaoService) { }
 
   @Input() pessoas = [];
   @Input() filtro: PessoaFiltro;
@@ -60,19 +62,22 @@ export class PessoasGridComponent {
   }
 
   mudarStatus(pessoa: any) {
-    this.pessoasService.ativar(pessoa.codigo, pessoa.ativo ? false : true).then(() => {
-      if (this.grid.first === 0) {
-        this.filtro.pagina = 0;
-        this.pessoasService.pesquisar(this.filtro).then(pessoasEncontrados => {
-          this.pessoas = pessoasEncontrados.pessoas;
-          this.totalRegistros = pessoasEncontrados.total;
-        });
-      } else {
-        this.grid.first = 0;
-      }
+    if (this.autenticacaoService.verificarPermissao('ROLE_CADASTRAR_PESSOA')) {
+      this.pessoasService.ativar(pessoa.codigo, pessoa.ativo ? false : true).then(() => {
+        if (this.grid.first === 0) {
+          this.filtro.pagina = 0;
+          this.pessoasService.pesquisar(this.filtro).then(pessoasEncontrados => {
+            this.pessoas = pessoasEncontrados.pessoas;
+            this.totalRegistros = pessoasEncontrados.total;
+          });
+        } else {
+          this.grid.first = 0;
+        }
 
-      this.toasty.success('Status atualizado com sucesso!');
-    }).catch(erro => this.errorHandle.handle(erro));
+        this.toasty.success('Status atualizado com sucesso!');
+      }).catch(erro => this.errorHandle.handle(erro));
+    } else {
+      this.toasty.warning('Sem permissão!');
+    }
   }
-
 }

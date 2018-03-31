@@ -34,7 +34,7 @@
         <app-lancamentos-grid [lancamentos]="lancamentos" [filtro]="filtro" [totalRegistros]="totalRegistros" [totalValor]="totalValor" ></app-lancamentos-grid>
       </div>
 
-      <div class="ui-g-12">
+      <div class="ui-g-12" *ngIf="autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')">
         <a label="Novo Lançamento" pButton routerLink="/lancamentos/novo" ></a>
       </div>
 

@@ -6,7 +6,8 @@
       </div>
 
       <div class="ui-g-12">
-        <p-selectButton [options]="tipos" #tipo name="tipo" [(ngModel)]="lancamento.tipoLancamento" ></p-selectButton>
+        <p-selectButton [options]="tipos" #tipo name="tipo" [(ngModel)]="lancamento.tipoLancamento"
+                        [disabled]="!autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')"></p-selectButton>
       </div>
 
       <div class="ui-g-6  ui-md-3  ui-fluid">
@@ -16,19 +17,22 @@
           readonlyInput -> Impossibilitar que datas sejam digitadas
           showIcon -> Mostrar icone do calendário
         -->
-        <p-calendar dateFormat="dd/mm/yy" [inline]="false" [readonlyInput]="false" [showIcon]="false" [locale]="pt" name="vencimento" #vencimento="ngModel" required [(ngModel)]="lancamento.dataVencimento" > </p-calendar>
+        <p-calendar dateFormat="dd/mm/yy" [inline]="false" [readonlyInput]="false" [showIcon]="false" [locale]="pt" name="vencimento" #vencimento="ngModel" required [(ngModel)]="lancamento.dataVencimento"
+                    [disabled]="!autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')"> </p-calendar>
 
         <app-message [control]="vencimento" error="required" text='Informe o vencimento' ></app-message>
       </div>
 
       <div class="ui-g-6 ui-md-3 ui-fluid">
         <label>{{ tipo.value === 'RECEITA' ? 'Recebimento' : 'Pagamento' }}</label>
-        <p-calendar dateFormat="dd/mm/yy" [inline]="false" name="pagamento" [readonlyInput]="false" [showIcon]="false" [locale]="pt" [(ngModel)]="lancamento.dataPagamento" > </p-calendar>
+        <p-calendar dateFormat="dd/mm/yy" [inline]="false" name="pagamento" [readonlyInput]="false" [showIcon]="false" [locale]="pt" [(ngModel)]="lancamento.dataPagamento"
+                    [disabled]="!autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')"> </p-calendar>
       </div>
 
       <div class="ui-g-12 ui-md-9 ui-fluid">
         <label>Descrição</label>
-        <input type="text" pInputText name="descricao" #descricao="ngModel" required minlength="5" [(ngModel)]="lancamento.descricao" >
+        <input type="text" pInputText name="descricao" #descricao="ngModel" required minlength="5" [(ngModel)]="lancamento.descricao"
+               [disabled]="!autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')" >
 
         <app-message [control]="descricao" error="required" text='Informe uma descrição' ></app-message>
         <!-- ? -> Evitar null, caso não esteja preenchido não deve prosseguir -->
@@ -40,7 +44,7 @@
         <label>Valor</label>
         <!-- allowNegative -> Impossibilita valores negativos -->
         <input type="text" pInputText placeholder="0,00" currencyMask  [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: false }"
-               name="valor" #valor="ngModel" [(ngModel)]="lancamento.valor" >
+               name="valor" #valor="ngModel" [(ngModel)]="lancamento.valor" [disabled]="!autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')" >
 
         <app-message [control]="valor" error="required" text='Informe o valor' ></app-message>
       </div>
@@ -51,24 +55,29 @@
           autoWidth -> Tamanho do componente não será conforme qtde de caracteres das palavras
           filter -> Disponibiliza combo de busca
         -->
-        <p-dropdown [options]="categorias" [autoWidth]="false" placeholder="Selecione" name="categoria" #categoria="ngModel" required [(ngModel)]="lancamento.categoria.codigo" ></p-dropdown>
+        <p-dropdown [options]="categorias" [autoWidth]="false" placeholder="Selecione" name="categoria" #categoria="ngModel" required [(ngModel)]="lancamento.categoria.codigo"
+                    [disabled]="!autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')"></p-dropdown>
         <app-message [control]="categoria" error="required" text='Informe uma categoria' ></app-message>
       </div>
 
       <div class="ui-g-12 ui-md-6 ui-fluid">
         <label>Pessoa</label>
-        <p-dropdown [options]="pessoas" [autoWidth]="false" placeholder="Selecione" name="pessoa" #pessoa="ngModel" [filter]="true" required [(ngModel)]="lancamento.pessoa.codigo" ></p-dropdown>
+        <p-dropdown [options]="pessoas" [autoWidth]="false" placeholder="Selecione" name="pessoa" #pessoa="ngModel" [filter]="true" required [(ngModel)]="lancamento.pessoa.codigo"
+                    [disabled]="!autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')"></p-dropdown>
         <app-message [control]="pessoa" error="required" text='Informe uma pessoa' ></app-message>
       </div>
 
       <div class="ui-g-12  ui-fluid">
         <label>Observação</label>
-        <textarea rows="3" pInputTextarea name="observacao" #observacao="ngModel" [(ngModel)]="lancamento.observacao" > </textarea>
+        <textarea rows="3" pInputTextarea name="observacao" #observacao="ngModel" [(ngModel)]="lancamento.observacao"
+                  [disabled]="!autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')"> </textarea>
       </div>
 
       <div class="ui-g-12">
-        <button type="submit" label="Salvar" [disabled]="lancamentoForm.valid == false" pButton></button>
-        <button type="button" label="Novo" class="ui-button-info" pButton (click)="novo(lancamentoForm)" ></button>
+        <button type="submit" label="Salvar" [disabled]="lancamentoForm.valid == false" pButton
+                [disabled]="!autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')"></button>
+        <button type="button" label="Novo" class="ui-button-info" pButton (click)="novo(lancamentoForm)"
+                [disabled]="!autenticacaoService.verificarPermissao('ROLE_CADASTRAR_LANCAMENTO')"></button>
         <a routerLink="/lancamentos" >Voltar para a pesquisa</a>
       </div>
 

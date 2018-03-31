@@ -11,6 +11,7 @@ import { BarraAguardeService } from './../../shared/barra-aguarde/BarraAguardeSe
 import { PessoaService } from '../../pessoas/pessoa.service';
 import { Lancamento } from '../../core/model';
 import { LancamentoService } from '../lancamento.service';
+import { AutenticacaoService } from '../../seguranca/autenticacao.service';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -41,7 +42,8 @@ export class LancamentoCadastroComponent implements OnInit {
               /* Se faz necessário pra captar parâmetros passados na rota */
               private rota: ActivatedRoute,
               private redirecionar: Router,
-              private titulo: Title) { }
+              private titulo: Title,
+              private autenticacaoService: AutenticacaoService) { }
 
   ngOnInit() {
     this.pt = {

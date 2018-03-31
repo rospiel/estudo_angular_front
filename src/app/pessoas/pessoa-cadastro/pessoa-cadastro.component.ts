@@ -9,6 +9,7 @@ import { ErrorHandlerService } from './../../core/error-handler.service';
 import { BarraAguardeService } from './../../shared/barra-aguarde/BarraAguardeService.service';
 import { PessoaService } from '../../pessoas/pessoa.service';
 import { Pessoa } from '../../core/model';
+import { AutenticacaoService } from '../../seguranca/autenticacao.service';
 
 @Component({
   selector: 'app-pessoa-cadastro',
@@ -26,7 +27,8 @@ export class PessoaCadastroComponent implements OnInit {
               private toastyService: ToastyService,
               private rota: ActivatedRoute,
               private redirecionar: Router,
-              private titulo: Title) { }
+              private titulo: Title,
+              private autenticacaoService: AutenticacaoService) { }
 
   ngOnInit() {
     this.tituloPagina = 'Cadastro de Pessoa';

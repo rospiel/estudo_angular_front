@@ -7,6 +7,7 @@ import { ConfirmationService } from 'primeng/components/common/api';
 
 import { LancamentoFiltro, LancamentoService } from '../lancamento.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
+import { AutenticacaoService } from '../../seguranca/autenticacao.service';
 
 @Component({
   selector: 'app-lancamentos-grid',
@@ -19,7 +20,8 @@ export class LancamentosGridComponent {
               private toasty: ToastyService,
               private confirmacao: ConfirmationService,
               private formatadorDecimal: DecimalPipe,
-              private errorHandle: ErrorHandlerService) { }
+              private errorHandle: ErrorHandlerService,
+              private autenticacaoService: AutenticacaoService) { }
 
   @Input() lancamentos = [];
   @Input() filtro: LancamentoFiltro;

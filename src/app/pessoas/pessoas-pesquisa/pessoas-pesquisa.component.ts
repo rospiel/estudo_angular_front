@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 
 import { PessoaService, PessoaFiltro } from './../pessoa.service';
 import { ErrorHandlerService } from './../../core/error-handler.service';
+import { AutenticacaoService } from '../../seguranca/autenticacao.service';
 
 @Component({
   selector: 'app-pessoas-pesquisa',
@@ -17,7 +18,8 @@ export class PessoasPesquisaComponent implements OnInit {
 
   constructor(private pessoaService: PessoaService,
               private titulo: Title,
-              private errorHandle: ErrorHandlerService) { }
+              private errorHandle: ErrorHandlerService,
+              private autenticacaoService: AutenticacaoService) { }
 
   ngOnInit() {
     this.titulo.setTitle('Pesquisa de Pessoas');

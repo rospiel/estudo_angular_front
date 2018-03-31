@@ -25,6 +25,8 @@ export class ErrorHandlerService {
         mensagem = erros[0].mensagem ? erros[0].mensagem : 'Erro ao processar serviço remoto. Tente novamente.';
         console.log('Ocorreu um erro: ', erros[0].mensagemDesenvolvedor ? erros[0].mensagemDesenvolvedor :
                                                                     'Erro ao processar serviço remoto. Tente novamente.');
+      } else if (errorResponse.status === 403) {
+        mensagem = 'Sem permissão para executar esta ação!';
       } else {
         mensagem = 'Erro ao processar serviço remoto. Tente novamente.';
         console.log('Ocorreu um erro: ', errorResponse);
