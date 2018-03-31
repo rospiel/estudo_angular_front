@@ -81,4 +81,14 @@ export class AutenticacaoService {
     return !token || this.jwtHelper.isTokenExpired(token);
   }
 
+  verificarPermissoes(roles) {
+    for (const role of roles) {
+      if (this.verificarPermissao(role)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
 }
