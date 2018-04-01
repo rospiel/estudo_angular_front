@@ -5,6 +5,7 @@ import { AuthConfig, AuthHttp, JwtHelper } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 
 import { AutenticacaoService } from './autenticacao.service';
+import { ErroSemAutenticacao } from './../core/error-handler.service';
 
 @Injectable()
 export class MoneyHttp extends AuthHttp {
@@ -51,6 +52,9 @@ export class MoneyHttp extends AuthHttp {
 
       const chamadaNovoAccessToken = this.autenticacaoService.obterNovoAccessToken()
         .then(() => {
+          if (this.autenticacaoService.isAccessTokenInvalido()) {
+            throw new ErroSemAutenticacao();
+          }
           return fn().toPromise();
         });
 
