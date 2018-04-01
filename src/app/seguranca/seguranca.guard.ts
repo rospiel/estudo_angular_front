@@ -15,7 +15,15 @@ export class SegurancaGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    if (next.data.roles && this.autenticacaoService.verificarPermissoes(next.data.roles) === false) {
+    if (this.autenticacaoService.isAccessTokenInvalido()) {
+      return this.autenticacaoService.obterNovoAccessToken().then(() => {
+        if (this.autenticacaoService.isAccessTokenInvalido()) {
+          this.redirecionar.navigate(['/login']);
+          return false;
+        }
+        return true;
+      });
+    } else if (next.data.roles && this.autenticacaoService.verificarPermissoes(next.data.roles) === false) {
       this.redirecionar.navigate(['/nao-autorizado']);
       return false;
     }
