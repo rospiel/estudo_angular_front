@@ -91,4 +91,9 @@ export class AutenticacaoService {
     return false;
   }
 
+  limparAccessToken() {
+    localStorage.removeItem('token');
+    this.jwtPayload = null;
+  }
+
 }
