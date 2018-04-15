@@ -2,58 +2,69 @@
 [paginator]=true -> Disponibilizando paginação
 [rows]=2 -> qtde de linhas por página
 [responsive]=true -> Deixando a tabela responsiva -->
-<p-dataTable [value]="lancamentos" [responsive]="true" emptyMessage="Nenhum lançamento encontrado."
-             [paginator]="true" [rows]="filtro.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros"
-             (onLazyLoad)="aoMudarPagina($event)" #tabela >
-  <p-column field="pessoa" header="Pessoa"></p-column>
-  <p-column field="descricao" header="Descrição"></p-column>
+<p-table [value]="lancamentos"
+         [responsive]="true"
+         [paginator]="true"
+         [rows]="filtro.itensPorPagina"
+         [lazy]="true"
+         [totalRecords]="totalRegistros"
+         (onLazyLoad)="aoMudarPagina($event)"
+         #tabela >
 
-  <!-- styleClass / Necessário caso almejemos mudar o style das colunas  -->
-  <p-column styleClass="col-data" field="dataVencimento" header="Vencimento">
-    <ng-template let-lanc="rowData" pTemplate="body">
-      {{ lanc.dataVencimento | date: 'dd/MM/y' }}
-    </ng-template>
-  </p-column>
-  <p-column styleClass="col-data" field="dataPagamento" header="Pagamento">
-    <ng-template let-lanc="rowData" pTemplate="body">
-      {{ lanc.dataPagamento | date: 'dd/MM/y' }}
-    </ng-template>
-  </p-column>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Pessoa</th>
+      <th>Descrição</th>
+      <th class="col-data-header" >Vencimento</th>
+      <th class="col-data-header" >Pagamento</th>
+      <th class="col-valor-header" >Valor</th>
+      <th class="col-acoes-header"></th>
+    </tr>
+  </ng-template>
 
+  <ng-template pTemplate="body" let-lanc>
+    <tr>
+      <td> {{ lanc.pessoa }} </td>
+      <td> {{ lanc.descricao }} </td>
+      <td class="col-data"> {{ lanc.dataVencimento | date: 'dd/MM/y' }} </td>
+      <td class="col-data"> {{ lanc.dataPagamento | date: 'dd/MM/y' }} </td>
+      <td class="col-valor"
+          [style.color]=" lanc.tipo === 'DESPESA' ? 'red' : 'blue' " >
+        {{ lanc.valor | number:'1.2-2' }}
+      </td>
+      <td class="col-acoes" >
+          <button pButton
+                  icon="fa-pencil"
+                  pTooltip="Editar Lançamento"
+                  tooltipPosition="top"
+                  [routerLink]="['/lancamentos', lanc.codigo]">
+          </button> <!-- DIRETIVA icon=fa-pencil AWESOME -->
+          <button pButton
+                  icon="fa-trash"
+                  pTooltip="Excluir Lançamento"
+                  tooltipPosition="top"
+                  [disabled]="!autenticacaoService.verificarPermissao('ROLE_REMOVER_LANCAMENTO')"
+                  (click)="confirmarExclusao(lanc)">
+          </button>
+      </td>
+    </tr>
 
-  <p-column styleClass="col-valor" field="valor" header="Valor">
-    <!-- COMPONENTE ng-template / ANGULAR / Agregando no trecho dinâmica na tabela
-          rowData -> guarda o contéudo da linha
-          let-lanc -> criando variável que recebe o conteúdo da linha
-          pTemplate -> qual parte da tabela será alterado -->
-    <ng-template let-lanc="rowData" pTemplate="body">
-      <!-- Tratativa da cor de texto conforme despesa -->
-      <span [style.color]=" lanc.tipo === 'DESPESA' ? 'red' : 'blue' " >{{ lanc.valor | number:'1.2-2' }}</span>
-    </ng-template>
-  </p-column>
+  </ng-template>
 
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="6">
+        Nenhum lançamento encontrado.
+      </td>
+    </tr>
+  </ng-template>
 
-  <p-column styleClass="col-acoes">
-    <ng-template let-lanc="rowData" pTemplate="body">
-      <a icon="fa-pencil" pButton pTooltip="Editar Lançamento" [routerLink]="['/lancamentos', lanc.codigo]" tooltipPosition="top"></a> <!-- DIRETIVA icon=fa-pencil AWESOME -->
-      <button icon="fa-trash" pButton pTooltip="Excluir Lançamento" tooltipPosition="top"
-              (click)="confirmarExclusao(lanc)" [disabled]="!autenticacaoService.verificarPermissao('ROLE_REMOVER_LANCAMENTO')" ></button>
-    </ng-template>
-  </p-column>
+  <ng-template pTemplate="footer">
+      <tr>
+        <td class="col-total-footer" colspan="4">Total:</td>
+        <td class="col-total-footer" >R$ {{ totalValor | number:'1.2-2' }}</td>
+        <td></td>
+      </tr>
+  </ng-template>
 
-
-
-  <p-footerColumnGroup>
-    <p-row>
-        <p-column footer="Total:" colspan="4"></p-column>
-        <p-column>
-          <ng-template pTemplate="footer">
-              R$ {{ totalValor | number:'1.2-2' }}
-          </ng-template>
-        </p-column>
-
-        <p-column footer="" ></p-column>
-    </p-row>
-  </p-footerColumnGroup>
-
-</p-dataTable>
+</p-table>
