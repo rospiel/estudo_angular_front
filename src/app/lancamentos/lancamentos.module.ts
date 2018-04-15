@@ -3,14 +3,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { SelectButtonModule } from 'primeng/components/selectbutton/selectbutton';
-import { TooltipModule } from 'primeng/components/tooltip/tooltip';
-import { ButtonModule } from 'primeng/components/button/button';
-import { InputTextModule } from 'primeng/components/inputtext/inputtext';
-import { DataTableModule } from 'primeng/components/datatable/datatable';
-import { InputTextareaModule } from 'primeng/components/inputtextarea/inputtextarea';
-import { CalendarModule } from 'primeng/components/calendar/calendar';
-import { DropdownModule } from 'primeng/components/dropdown/dropdown';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TooltipModule } from 'primeng/tooltip';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DataTableModule } from 'primeng/datatable';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-cadastro.component';
