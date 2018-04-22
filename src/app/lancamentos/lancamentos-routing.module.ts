@@ -7,19 +7,19 @@ import { SegurancaGuard } from '../seguranca/seguranca.guard';
 
 const rotas: Routes = [
   {
-    path: 'lancamentos',
+    path: '',
     component: LancamentosPesquisaComponent,
     canActivate: [SegurancaGuard],
     data: { roles: [ 'ROLE_PESQUISAR_LANCAMENTO' ] }
   },
   {
-    path: 'lancamentos/novo',
+    path: 'novo',
     component: LancamentoCadastroComponent,
     canActivate: [SegurancaGuard],
     data: { roles: [ 'ROLE_CADASTRAR_LANCAMENTO' ] }
   },
   /* Rota para satisfazer a busca de lançamento pelo código */
-  { path: 'lancamentos/:codigo',
+  { path: ':codigo',
     component: LancamentoCadastroComponent,
     canActivate: [SegurancaGuard],
     data: { roles: [ 'ROLE_PESQUISAR_LANCAMENTO' ] }

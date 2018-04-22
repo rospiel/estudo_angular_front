@@ -9,8 +9,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
-import { LancamentosModule } from './lancamentos/lancamentos.module';
-import { PessoasModule } from './pessoas/pessoas.module';
 import { CoreModule } from './core/core.module';
 import { LancamentosPesquisaComponent } from './lancamentos/lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { LancamentoCadastroComponent } from './lancamentos/lancamento-cadastro/lancamento-cadastro.component';
@@ -31,8 +29,9 @@ registerLocaleData(localePt, 'pt-BR');
     HttpModule,
     FormsModule,
 
-    LancamentosModule,
-    PessoasModule,
+    /* Remoção para carregamento tardio de módulos */
+    /* LancamentosModule, */
+    /* PessoasModule, */
     CoreModule,
     SharedModule,
     SegurancaModule,

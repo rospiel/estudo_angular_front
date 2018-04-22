@@ -7,19 +7,19 @@ import { SegurancaGuard } from '../seguranca/seguranca.guard';
 
 const rotas: Routes = [
   {
-    path: 'pessoas',
+    path: '',
     component: PessoasPesquisaComponent,
     canActivate: [SegurancaGuard],
     data: { roles: [ 'ROLE_PESQUISAR_PESSOA' ] }
   },
   {
-    path: 'pessoas/novo',
+    path: 'novo',
     component: PessoaCadastroComponent,
     canActivate: [SegurancaGuard],
     data: { roles: [ 'ROLE_CADASTRAR_PESSOA' ] }
   },
   {
-    path: 'pessoas/:codigo',
+    path: ':codigo',
     component: PessoaCadastroComponent,
     canActivate: [SegurancaGuard],
     data: { roles: [ 'ROLE_PESQUISAR_PESSOA' ] }
